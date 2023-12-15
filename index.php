@@ -15,7 +15,7 @@
 
 <body>
     <div id='perso'>
-        <p>TEST</p>
+        <p>TOI</p>
         
     </div>
     <div id='TIR'></div>

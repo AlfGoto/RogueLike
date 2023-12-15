@@ -1,8 +1,39 @@
+*{
+    user-select: none;
+    overflow: hidden;
+}
 #perso{
     position: absolute;
     top: 200px;
     left: 200px;
 }
+p{
+    margin: 0px;
+}
 .tir{
     position: absolute;
+    font-size: 100%;
+}
+
+@keyframes explode{
+    0%{
+        font-size: 100%;
+        filter: blur(0);
+    }
+    25%{
+        font-size: 125%;
+        filter: blur(2px);
+    }
+    50%{
+        font-size: 156%;
+        filter: blur(4px);
+    }
+    75%{
+        font-size: 195%;
+        filter: blur(10px);
+    }
+    100%{
+        font-size: 243%;
+        filter: blur(20px);
+    }
 }
