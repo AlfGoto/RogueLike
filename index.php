@@ -20,6 +20,8 @@
     </div>
     <div id='TIR'></div>
     <div id='DIVremnant'></div>
+    <div id='DIVenemy'></div>
+    <p id='timer'>0</p>
 </body>
 
 

@@ -44,3 +44,12 @@ p{
     z-index: 1;
     filter: blur(1px);
 }
+
+
+.enemy{
+    position: absolute;
+}
+#timer{
+    position: absolute;
+    float: right;
+}

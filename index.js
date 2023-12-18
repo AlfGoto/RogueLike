@@ -4,11 +4,16 @@ document.addEventListener('DOMContentLoaded', () => {
     let persoCSS = window.getComputedStyle(perso)
     let tirDiv = document.getElementById('TIR')
     let remnantDIV = document.getElementById('DIVremnant')
+    let enemyDIV = document.getElementById('DIVenemy')
     let zBOOL = false;
     let sBOOL = false;
     let qBOOL = false;
     let dBOOL = false;
+    let timer = document.getElementById('timer')
+    let time = 0
+    let gameON = false
     let tirCount = 0
+    let nbEnemy = 0
     let currentLetter = -1
     let alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     let onno = ['PAF', 'PIF', 'BANG', 'POUF', 'BING', 'BAM', 'BIM', 'BOUM', 'DA', 'TA', 'RA']
@@ -38,9 +43,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function finMovment(obj) {
+        console.log(mechants)
         //animation de fin de mouvement
         obj.innerHTML = nextLetter()
         obj.style.animation = 'explode 0.5s linear'
+
+        //detect if it HIT
+        mechants.forEach(e => {
+            if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < 50 &&
+                Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < 50) {
+                e.destroy()
+            }
+        });
 
         //créer la marque au sol
         let remnant = document.createElement('p')
@@ -53,6 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
             obj.remove()
             return
         }, 500)
+        setTimeout(() => {
+            remnant.remove()
+            return
+        }, 60000)
     }
     function nextLetter() {
         if (currentLetter == 25) { currentLetter = 0 } else { currentLetter++ }
@@ -102,7 +120,125 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+
+
+    class enemy {
+        constructor() {
+            nbEnemy++
+            this.number = nbEnemy
+            this.life =  Math.floor(Math.random() * (Math.ceil(time / 10) - 1 + 1) + 1)
+            console.log('enemy n' + this.number + ' has spawn')
+
+
+            this.elem = document.createElement('p')
+            enemyDIV.appendChild(this.elem)
+            this.elem.classList.add('enemy')
+            this.spawn()
+
+
+            this.moveToPerso()
+        }
+        moveToPerso() {
+            this.posX = Number(window.getComputedStyle(this.elem)['left'].replace('px', ''))
+            this.posY = Number(window.getComputedStyle(this.elem)['top'].replace('px', ''))
+
+            if (this.posX < Number(persoCSS['left'].replace('px', ''))) {
+                this.elem.style.left = (this.posX + 1) + 'px'
+            } else if (this.posX > Number(persoCSS['left'].replace('px', ''))) {
+                this.elem.style.left = (this.posX - 1) + 'px'
+            }
+
+            if (this.posY < Number(persoCSS['top'].replace('px', ''))) {
+                this.elem.style.top = (this.posY + 1) + 'px'
+            } else if (this.posY > Number(persoCSS['top'].replace('px', ''))) {
+                this.elem.style.top = (this.posY - 1) + 'px'
+            }
+            // console.log('Y = ' + this.posY + '    X = ' + this.posX)
+
+
+            setTimeout(() => {
+                this.moveToPerso()
+            }, 20)
+        }
+
+        spawn() {
+            this.elem.innerHTML = this.life
+
+            let x = Math.floor(Math.random() * (window.innerWidth - 0 + 1) + 0)
+            let y = Math.floor(Math.random() * (window.innerHeight - 0 + 1) + 0)
+            if (Math.abs(Number(persoCSS['top'].replace('px', '')) - y) > 300 || Math.abs(Number(persoCSS['left'].replace('px', '')) - x) > 300) {
+                this.elem.style.top = y + 'px'
+                this.elem.style.left = x + 'px'
+            } else {
+                this.spawn()
+            }
+        }
+
+        destroy() {
+            if (this.life <= 1) {
+                console.log(this.number + ' is dead')
+                mechants.splice(mechants.indexOf(this), 1)
+                Object.getOwnPropertyNames(this).forEach(pName => {
+                    delete this.pName;
+                })
+                this.elem.remove()
+            } else {
+                this.life -= 1
+                this.elem.innerHTML = this.life
+            }
+
+        }
+    }
+
+    function spawnCoordinate() {
+        let x = Math.floor(Math.random() * (window.innerWidth - 0 + 1) + 0)
+        let y = Math.floor(Math.random() * (window.innerHeight - 0 + 1) + 0)
+        if (Math.abs(Number(persoCSS['top'].replace('px', '')) - y) > 300 || Math.abs(Number(persoCSS['left'].replace('px', '')) - x) > 300) {
+            return x + '|' + y
+        } else {
+            return spawnCoordinate()
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    let mechants = []
+    setInterval(() => {
+        if (gameON == true) {
+            time++
+            timer.innerHTML = time
+            if (time % 1 == 0) {
+                mechants.push(new enemy())
+            }
+        }
+    }, 1000);
+
+
     window.addEventListener('keydown', function (e) {
+        if (gameON == false) {
+            gameON = true
+        }
         // console.log(`DOWN ${e.key}`)
         if (e.key == 'z') {
             if (zBOOL == false) {
@@ -147,8 +283,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-
-
     function zfonction() {
         setTimeout(() => {
             let top = Number(persoCSS['top'].replace('px', ''))
@@ -165,7 +299,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let top = Number(persoCSS['top'].replace('px', ''))
             top += 4
-            if (top > 700) { return }
+            if (top > window.innerHeight) { return }
             top = top + 'px'
             perso.style.top = top
             if (sBOOL == true) {
@@ -177,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let top = Number(persoCSS['left'].replace('px', ''))
             top += 4
-            if (top > 1495) { return }
+            if (top > window.innerWidth) { return }
             top = top + 'px'
             perso.style.left = top
             if (dBOOL == true) {
@@ -197,7 +331,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1)
     }
-
 
     //enlever le menu du clic droit
     document.addEventListener('contextmenu', event => {
