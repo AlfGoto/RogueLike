@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let perso = document.getElementById('perso')
     let persoCSS = window.getComputedStyle(perso)
     let tirDiv = document.getElementById('TIR')
+    let remnantDIV = document.getElementById('DIVremnant')
     let zBOOL = false;
     let sBOOL = false;
     let qBOOL = false;
@@ -14,25 +15,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     window.addEventListener('pointerdown', (e) => {
-        tirCount++
-        // let x = e.pageX //left
-        // let y = e.pageY //top
-        tir = document.createElement('p')
-        tirDiv.appendChild(tir)
-        tir.innerHTML = randomOnno().toLowerCase()
-        tir.classList.add('tir')
-        tir.setAttribute("id", tirCount)
-        tir.style.left = Number(persoCSS['left'].replace('px', '')) + 'px'
-        tir.style.top = Number(persoCSS['top'].replace('px', '')) + 'px'
+        if (e.which == 3) {
+            console.log('rightClick')
+        }
+        if (e.which == 1) {
+            tirCount++
 
-        let distance = speedCalcul(Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 30)
-        tirMovment(tir, Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 0, distance)
+            //crée le missile
+            tir = document.createElement('p')
+            tirDiv.appendChild(tir)
+            tir.innerHTML = randomOnno().toLowerCase()
+            tir.classList.add('tir')
+            tir.setAttribute("id", tirCount)
+
+            //le place et l'envoie
+            tir.style.left = persoCSS['left']
+            tir.style.top = persoCSS['top']
+            let distance = speedCalcul(Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 30)
+            tirMovment(tir, Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 0, distance)
+        }
     })
 
 
     function finMovment(obj) {
+        //animation de fin de mouvement
         obj.innerHTML = nextLetter()
         obj.style.animation = 'explode 0.5s linear'
+
+        //créer la marque au sol
+        let remnant = document.createElement('p')
+        remnant.classList.add('remnant')
+        remnant.innerHTML = obj.innerHTML
+        remnantDIV.appendChild(remnant)
+        remnant.style.top = window.getComputedStyle(obj)['top']
+        remnant.style.left = window.getComputedStyle(obj)['left']
         setTimeout(() => {
             obj.remove()
             return
@@ -42,8 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentLetter == 25) { currentLetter = 0 } else { currentLetter++ }
         return alph[currentLetter]
     }
-    function randomOnno(){
-        return onno[Math.floor(Math.random() * ((onno.length -1) - 0 + 1) + 0)]
+    function randomOnno() {
+        return onno[Math.floor(Math.random() * ((onno.length - 1) - 0 + 1) + 0)]
     }
     function speedCalcul(depX, depY, ariX, ariY, speed) {
         let distance = 0
@@ -69,10 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 distance++
             }
         }
-
-
-
-        console.log(distance)
         return distance
     }
     function tirMovment(obj, depX, depY, ariX, ariY, count, distance) {

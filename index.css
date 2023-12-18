@@ -4,8 +4,8 @@
 }
 #perso{
     position: absolute;
-    top: 200px;
-    left: 200px;
+    top: 300px;
+    left: 700px;
 }
 p{
     margin: 0px;
@@ -36,4 +36,11 @@ p{
         font-size: 243%;
         filter: blur(20px);
     }
+}
+
+.remnant{
+    position: absolute;
+    color: rgba(0, 0, 0, 0.08);
+    z-index: 1;
+    filter: blur(1px);
 }
