@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let mooveSpeed = 2
     let tirITERATION = 1
     let tirIterationCount = 0
+    let explodeRadius = 50
 
 
 
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('rightClick')
         }
         if (e.which == 1) {
+            if(gamePAUSE){return}
             if (cooldown == false) {
                 setTimeout(() => {
                     cooldown = false
@@ -125,8 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //detect if it HIT
         mechants.forEach(e => {
-            if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < 50 &&
-                Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < 50) {
+            if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < explodeRadius &&
+                Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < explodeRadius) {
                 e.destroy()
             }
         });
@@ -462,7 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let tempOne = tempARR[tempKey]
         tempARR.splice(tempKey, 1)
         console.log(tempARR)
-        tempOne.elem.style.left = '27.5vw'
+        tempOne.elem.style.left = '23.5vw'
         tempOne.elem.classList.remove('hidden')
 
         //Second element
@@ -470,7 +472,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let tempTwo = tempARR[tempKey]
         tempARR.splice(tempKey, 1)
         console.log(tempARR)
-        tempTwo.elem.style.left = '47.5vw'
+        tempTwo.elem.style.left = '43.5vw'
         tempTwo.elem.classList.remove('hidden')
 
         //Third element
@@ -478,7 +480,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let tempThree = tempARR[tempKey]
         tempARR.splice(tempKey, 1)
         console.log(tempARR)
-        tempThree.elem.style.left = '67.5vw'
+        tempThree.elem.style.left = '63.5vw'
         tempThree.elem.classList.remove('hidden')
     }
 
@@ -507,6 +509,10 @@ document.addEventListener('DOMContentLoaded', () => {
     powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
         persoLife++
         if(persoLife == 2){persoO.classList.remove('hidden')}else if(persoLife == 3){persoI.classList.remove('hidden')}
+        closepowerupMenu()
+    }))
+    powerupArray.push(new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
+        explodeRadius += 50
         closepowerupMenu()
     }))
 

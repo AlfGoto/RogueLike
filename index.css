@@ -1,6 +1,7 @@
 *{
     user-select: none;
     overflow: hidden;
+    font-family: Arial, sans-serif;
 }
 .hidden{
     visibility: hidden;
@@ -109,10 +110,10 @@ p{
     height: 40vh;
     width: 15vw;
     text-align: center;
+    top: 20vh;
 }
 .powerupDIVS p{
     font-size: 3vh;
-    top: 20vh;
 }
 .powerupDIV{
     position: absolute;
