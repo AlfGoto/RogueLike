@@ -1,22 +1,69 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     console.log('connected to index.JS')
+
+
+    //PERSO
     let perso = document.getElementById('perso')
+    let persoName = 'TOI'
+    perso.innerHTML = '<p id="T">' + persoName[0] + '</p><p id="O">' + persoName[1] + '</p><p id="I">' + persoName[2] + '</p>'
+    let persoT = document.getElementById('T')
+    let persoO = document.getElementById('O')
+    let persoI = document.getElementById('I')
     let persoCSS = window.getComputedStyle(perso)
+    perso.style.left = Math.ceil(window.innerWidth / 2) + 'px'
+    perso.style.top = Math.ceil(window.innerHeight / 2.50) + 'px'
+    let persoLife = 3
+    let persoDEAD = false
+    let invulnerabilityPeriod = false
+
+    //XP
+    let lvlP = document.getElementById('lvl')
+    let xpCount = 0
+    let lvl = 1
+    let xpNeeded = 10
+    let xpPROGRESS = document.getElementById('xpPROGRESS')
+
+
+    //TIR
     let tirDiv = document.getElementById('TIR')
+    let tirCount = 0
     let remnantDIV = document.getElementById('DIVremnant')
     let enemyDIV = document.getElementById('DIVenemy')
+    let cooldown = false
+
+
+    //MOUVEMENT
     let zBOOL = false;
     let sBOOL = false;
     let qBOOL = false;
     let dBOOL = false;
+
+
     let timer = document.getElementById('timer')
     let time = 0
     let gameON = false
-    let tirCount = 0
+
     let nbEnemy = 0
+
     let currentLetter = -1
     let alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
     let onno = ['PAF', 'PIF', 'BANG', 'POUF', 'BING', 'BAM', 'BIM', 'BOUM', 'DA', 'TA', 'RA']
+
+
+    //POWER UP 
+    let powerupDIV = document.getElementById('powerupDIV')
+    let powerupArray = []
+    let gamePAUSE = false
+    let powerupTitle = document.getElementById('powerupTitle')
+    //les trucs augmentables
+    let cooldownTime = 1000
+    let mooveSpeed = 2
+    let tirITERATION = 1
+    let tirIterationCount = 0
+
+
+
 
 
     window.addEventListener('pointerdown', (e) => {
@@ -24,26 +71,54 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('rightClick')
         }
         if (e.which == 1) {
-            tirCount++
+            if (cooldown == false) {
+                setTimeout(() => {
+                    cooldown = false
+                }, cooldownTime)
+                cooldown = true
 
-            //crée le missile
-            tir = document.createElement('p')
-            tirDiv.appendChild(tir)
-            tir.innerHTML = randomOnno().toLowerCase()
-            tir.classList.add('tir')
-            tir.setAttribute("id", tirCount)
+                tirIterationCount = 0
 
-            //le place et l'envoie
-            tir.style.left = persoCSS['left']
-            tir.style.top = persoCSS['top']
-            let distance = speedCalcul(Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 30)
-            tirMovment(tir, Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 0, distance)
+                tirFunction(e)
+
+            } else {
+                perso.style.color = 'gray'
+                setTimeout(() => {
+                    perso.style.color = 'black'
+                }, 100)
+            }
         }
     })
 
 
+
+
+
+
+    function tirFunction(e) {
+        tirIterationCount++
+        tirCount++
+
+        //crée le missile
+        tir = document.createElement('p')
+        tirDiv.appendChild(tir)
+        tir.innerHTML = randomOnno().toLowerCase()
+        tir.classList.add('tir')
+        tir.setAttribute("id", tirCount)
+
+        //le place et l'envoie
+        tir.style.left = persoCSS['left']
+        tir.style.top = persoCSS['top']
+        let distance = speedCalcul(Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 30)
+        tirMovment(tir, Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 0, distance)
+
+        if (tirIterationCount != tirITERATION) {
+            setTimeout(() => {
+                tirFunction(e)
+            }, 150)
+        }
+    }
     function finMovment(obj) {
-        console.log(mechants)
         //animation de fin de mouvement
         obj.innerHTML = nextLetter()
         obj.style.animation = 'explode 0.5s linear'
@@ -126,8 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
         constructor() {
             nbEnemy++
             this.number = nbEnemy
-            this.life =  Math.floor(Math.random() * (Math.ceil(time / 10) - 1 + 1) + 1)
-            console.log('enemy n' + this.number + ' has spawn')
+            this.life = Math.floor(Math.random() * (Math.ceil(time / 10) - 1 + 1) + 1)
 
 
             this.elem = document.createElement('p')
@@ -139,6 +213,13 @@ document.addEventListener('DOMContentLoaded', () => {
             this.moveToPerso()
         }
         moveToPerso() {
+            if (gamePAUSE) {
+                setTimeout(() => {
+                    this.moveToPerso()
+                }, 500)
+                return
+            }
+            if (persoDEAD) { return }
             this.posX = Number(window.getComputedStyle(this.elem)['left'].replace('px', ''))
             this.posY = Number(window.getComputedStyle(this.elem)['top'].replace('px', ''))
 
@@ -153,9 +234,10 @@ document.addEventListener('DOMContentLoaded', () => {
             } else if (this.posY > Number(persoCSS['top'].replace('px', ''))) {
                 this.elem.style.top = (this.posY - 1) + 'px'
             }
-            // console.log('Y = ' + this.posY + '    X = ' + this.posX)
 
-
+            if (Math.abs(this.posX - Number(persoCSS['left'].replace('px', ''))) < 10 && Math.abs(this.posY - Number(persoCSS['top'].replace('px', ''))) < 10) {
+                persoHIT()
+            }
             setTimeout(() => {
                 this.moveToPerso()
             }, 20)
@@ -176,7 +258,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         destroy() {
             if (this.life <= 1) {
-                console.log(this.number + ' is dead')
+                xpADD()
+                // console.log(this.number + ' is dead')
                 mechants.splice(mechants.indexOf(this), 1)
                 Object.getOwnPropertyNames(this).forEach(pName => {
                     delete this.pName;
@@ -190,44 +273,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    function spawnCoordinate() {
-        let x = Math.floor(Math.random() * (window.innerWidth - 0 + 1) + 0)
-        let y = Math.floor(Math.random() * (window.innerHeight - 0 + 1) + 0)
-        if (Math.abs(Number(persoCSS['top'].replace('px', '')) - y) > 300 || Math.abs(Number(persoCSS['left'].replace('px', '')) - x) > 300) {
-            return x + '|' + y
-        } else {
-            return spawnCoordinate()
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
 
 
     let mechants = []
+    //TIMER
     setInterval(() => {
-        if (gameON == true) {
+        if (gameON && !persoDEAD && !gamePAUSE) {
             time++
-            timer.innerHTML = time
+            timer.innerHTML = time + ' secondes'
             if (time % 1 == 0) {
                 mechants.push(new enemy())
             }
@@ -235,7 +291,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 1000);
 
 
+
+
+    //mouvement
     window.addEventListener('keydown', function (e) {
+        if (gamePAUSE) { return }
         if (gameON == false) {
             gameON = true
         }
@@ -286,7 +346,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function zfonction() {
         setTimeout(() => {
             let top = Number(persoCSS['top'].replace('px', ''))
-            top -= 4
+            top -= mooveSpeed
             if (top < -0) { return }
             top = top + 'px'
             perso.style.top = top
@@ -298,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function sfonction() {
         setTimeout(() => {
             let top = Number(persoCSS['top'].replace('px', ''))
-            top += 4
+            top += mooveSpeed
             if (top > window.innerHeight) { return }
             top = top + 'px'
             perso.style.top = top
@@ -310,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function dfonction() {
         setTimeout(() => {
             let top = Number(persoCSS['left'].replace('px', ''))
-            top += 4
+            top += mooveSpeed
             if (top > window.innerWidth) { return }
             top = top + 'px'
             perso.style.left = top
@@ -322,7 +382,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function qfonction() {
         setTimeout(() => {
             let top = Number(persoCSS['left'].replace('px', ''))
-            top -= 4
+            top -= mooveSpeed
             if (top < 0) { return }
             top = top + 'px'
             perso.style.left = top
@@ -331,6 +391,130 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1)
     }
+
+
+
+
+
+
+
+    function persoHIT() {
+        if (invulnerabilityPeriod) { return }
+        invulnerabilityPeriod = true
+        setTimeout(() => {
+            invulnerabilityPeriod = false
+        }, 1000)
+        persoLife--
+        if (persoLife <= 0) {
+            gameON = false
+            persoDEAD = true
+            perso.remove()
+            console.log('perso dead')
+        } else if (persoLife == 1) {
+            persoO.classList.add('hidden')
+        } else if (persoLife == 2) {
+            persoI.classList.add('hidden')
+        }
+    }
+
+    function xpADD() {
+        xpCount++
+        // console.log('xp = ' + xpCount + '     xpNeeded for lvl ' + lvl + ' = ' + xpNeeded * (1.25 * lvl))
+        xpPROGRESS.style.left = ((xpCount / (xpNeeded * (1.25 * lvl))) * 100) - 100 + '%'
+        if (xpNeeded * (1.25 * lvl) <= xpCount) {
+            gamePAUSE = true
+            xpPROGRESS.style.left = '100%'
+            // console.log('LVL UP')
+            lvl++
+            lvlP.innerHTML = 'level ' + lvl
+            xpCount = 0
+            powerupMenu()
+        }
+    }
+
+    class powerup {
+        constructor(n, d, func) {
+
+            this.elem = document.createElement('div')
+            powerupDIV.appendChild(this.elem)
+            this.elem.classList.add('powerupDIVS')
+
+            this.nameP = document.createElement('h3')
+            this.elem.appendChild(this.nameP)
+            this.nameP.innerHTML = n
+            this.descriptionP = document.createElement('p')
+            this.elem.appendChild(this.descriptionP)
+            this.descriptionP.innerHTML = d
+
+            this.elem.addEventListener('click', func)
+            this.elem.classList.add('hidden')
+        }
+    }
+
+    function powerupMenu() {
+        console.log('Pupmenu Oppening...')
+        powerupTitle.classList.remove('hidden')
+        let tempARR = [...powerupArray]
+        console.log(tempARR)
+
+        //First element
+        tempKey = Math.floor(Math.random() * ((tempARR.length - 1) - 0 + 1) + 0)
+        let tempOne = tempARR[tempKey]
+        tempARR.splice(tempKey, 1)
+        console.log(tempARR)
+        tempOne.elem.style.left = '27.5vw'
+        tempOne.elem.classList.remove('hidden')
+
+        //Second element
+        tempKey = Math.floor(Math.random() * ((tempARR.length - 1) - 0 + 1) + 0)
+        let tempTwo = tempARR[tempKey]
+        tempARR.splice(tempKey, 1)
+        console.log(tempARR)
+        tempTwo.elem.style.left = '47.5vw'
+        tempTwo.elem.classList.remove('hidden')
+
+        //Third element
+        tempKey = Math.floor(Math.random() * ((tempARR.length - 1) - 0 + 1) + 0)
+        let tempThree = tempARR[tempKey]
+        tempARR.splice(tempKey, 1)
+        console.log(tempARR)
+        tempThree.elem.style.left = '67.5vw'
+        tempThree.elem.classList.remove('hidden')
+    }
+
+    function closepowerupMenu() {
+        console.log('menu closed')
+        powerupTitle.classList.add('hidden')
+        tempARR = document.querySelectorAll('.powerupDIVS')
+        tempARR.forEach(e => {
+            if (!e.classList.contains('hidden')) { e.classList.add('hidden') }
+        })
+        gamePAUSE = false
+    }
+
+    powerupArray.push(new powerup('I Need More Bullets', 'Get one more shot everytime you shoot', () => {
+        tirITERATION++
+        closepowerupMenu()
+    }))
+    powerupArray.push(new powerup('Quick Reading', 'Shoot faster by 15%', () => {
+        cooldownTime -= (cooldownTime / 100) * 15
+        closepowerupMenu()
+    }))
+    powerupArray.push(new powerup('betterFASTERstronger', 'Move faster !', () => {
+        mooveSpeed++
+        closepowerupMenu()
+    }))
+    powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
+        persoLife++
+        if(persoLife == 2){persoO.classList.remove('hidden')}else if(persoLife == 3){persoI.classList.remove('hidden')}
+        closepowerupMenu()
+    }))
+
+
+
+
+
+
 
     //enlever le menu du clic droit
     document.addEventListener('contextmenu', event => {
