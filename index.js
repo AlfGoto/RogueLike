@@ -56,6 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let powerupArray = []
     let gamePAUSE = false
     let powerupTitle = document.getElementById('powerupTitle')
+    let powerupMenuPAUSE = true
     //les trucs augmentables
     let cooldownTime = 1000
     let mooveSpeed = 2
@@ -492,6 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(tempARR)
         tempThree.elem.style.left = '63.5vw'
         tempThree.elem.classList.remove('hidden')
+
+        setTimeout(()=>{
+            powerupMenuPAUSE = false
+        }, 1000)
     }
 
     function closepowerupMenu() {
@@ -502,6 +507,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!e.classList.contains('hidden')) { e.classList.add('hidden') }
         })
         gamePAUSE = false
+        powerupMenuPAUSE = true
     }
 
     powerupArray.push(new powerup('I Need More Bullets', 'Get one more shot everytime you shoot', () => {
@@ -509,19 +515,23 @@ document.addEventListener('DOMContentLoaded', () => {
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('Quick Reading', 'Shoot faster by 15%', () => {
+        if(powerupMenuPAUSE){return}
         cooldownTime -= (cooldownTime / 100) * 15
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('betterFASTERstronger', 'Move faster !', () => {
+        if(powerupMenuPAUSE){return}
         mooveSpeed++
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
+        if(powerupMenuPAUSE){return}
         persoLife++
         if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
+        if(powerupMenuPAUSE){return}
         explodeRadius = Math.ceil(explodeRadius * 1.50)
         let radius = Math.ceil(Number(CSS.getPropertyValue('--explode-radius1').replace('%', '')) * 1.50);
 
@@ -534,12 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.style.setProperty('--explode-radius4', radius + '%');
         radius = Math.ceil(radius * 1.25)
         document.documentElement.style.setProperty('--explode-radius5', radius + '%');
-
-        console.log(CSS.getPropertyValue('--explode-radius1'))
-        console.log(CSS.getPropertyValue('--explode-radius2'))
-        console.log(CSS.getPropertyValue('--explode-radius3'))
-        console.log(CSS.getPropertyValue('--explode-radius4'))
-        console.log(CSS.getPropertyValue('--explode-radius5'))
 
         closepowerupMenu()
     }))
