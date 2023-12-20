@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let timer = document.getElementById('timer')
     let time = 0
     let gameON = false
+    let autoclickON = false
 
     let nbEnemy = 0
 
@@ -72,7 +73,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('pointerdown', (e) => {
         if (e.which == 3) {
-            console.log('rightClick')
+            autoclickON = !autoclickON
+            autoclickFunction()
+            console.log('autoclick = ' + autoclickON)
         }
         if (e.which == 1) {
             if (gamePAUSE) { return }
@@ -99,7 +102,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    function autoclickFunction() {
+        if (!autoclickON) { return }
+        if (gamePAUSE) {
+            setTimeout(autoclickFunction, cooldownTime + 1)
+            return
+        }
+        if (cooldown == false) {
+            setTimeout(() => {
+                cooldown = false
+            }, cooldownTime)
+            cooldown = true
 
+            tirIterationCount = 0
+
+            tirFunction()
+
+        } else {
+            perso.style.color = 'gray'
+            setTimeout(() => {
+                perso.style.color = 'black'
+            }, 100)
+        }
+        setTimeout(autoclickFunction, cooldownTime + 1)
+    }
     function tirFunction() {
         tirIterationCount++
         tirCount++
@@ -212,10 +238,10 @@ document.addEventListener('DOMContentLoaded', () => {
             this.elem = document.createElement('p')
             enemyDIV.appendChild(this.elem)
             this.elem.classList.add('enemy')
-            
+
             if (this.life > 1) {
                 var d = Math.random();
-                if (d < 0.7) { 
+                if (d < 0.7) {
                     this.speed = 5
                     this.elem.style.color = 'green'
                     this.life = Math.ceil(this.life / 2)
@@ -494,7 +520,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tempThree.elem.style.left = '63.5vw'
         tempThree.elem.classList.remove('hidden')
 
-        setTimeout(()=>{
+        setTimeout(() => {
             powerupMenuPAUSE = false
         }, 1000)
     }
@@ -515,23 +541,23 @@ document.addEventListener('DOMContentLoaded', () => {
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('Quick Reading', 'Shoot faster by 15%', () => {
-        if(powerupMenuPAUSE){return}
+        if (powerupMenuPAUSE) { return }
         cooldownTime -= (cooldownTime / 100) * 15
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('betterFASTERstronger', 'Move faster !', () => {
-        if(powerupMenuPAUSE){return}
+        if (powerupMenuPAUSE) { return }
         mooveSpeed++
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
-        if(powerupMenuPAUSE){return}
+        if (powerupMenuPAUSE) { return }
         persoLife++
         if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
-        if(powerupMenuPAUSE){return}
+        if (powerupMenuPAUSE) { return }
         explodeRadius = Math.ceil(explodeRadius * 1.50)
         let radius = Math.ceil(Number(CSS.getPropertyValue('--explode-radius1').replace('%', '')) * 1.50);
 
