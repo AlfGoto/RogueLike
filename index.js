@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let tirIterationCount = 0
     let explodeRadius = 50
 
+    let CSS = getComputedStyle(document.documentElement)
+
 
 
 
@@ -72,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('rightClick')
         }
         if (e.which == 1) {
-            if(gamePAUSE){return}
+            if (gamePAUSE) { return }
             if (cooldown == false) {
                 setTimeout(() => {
                     cooldown = false
@@ -81,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 tirIterationCount = 0
 
-                tirFunction(e)
+                tirFunction()
 
             } else {
                 perso.style.color = 'gray'
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    function tirFunction(e) {
+    function tirFunction() {
         tirIterationCount++
         tirCount++
 
@@ -111,12 +113,12 @@ document.addEventListener('DOMContentLoaded', () => {
         //le place et l'envoie
         tir.style.left = persoCSS['left']
         tir.style.top = persoCSS['top']
-        let distance = speedCalcul(Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 30)
-        tirMovment(tir, Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), e.pageX, e.pageY, 0, distance)
+        let distance = speedCalcul(Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), mouseX, mouseY, 30)
+        tirMovment(tir, Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), mouseX, mouseY, 0, distance)
 
         if (tirIterationCount != tirITERATION) {
             setTimeout(() => {
-                tirFunction(e)
+                tirFunction()
             }, 150)
         }
     }
@@ -203,15 +205,23 @@ document.addEventListener('DOMContentLoaded', () => {
         constructor() {
             nbEnemy++
             this.number = nbEnemy
-            this.life = Math.floor(Math.random() * (Math.ceil(time / 10) - 1 + 1) + 1)
-
+            this.life = Math.floor(Math.random() * (Math.ceil(time / 10) - Math.ceil(time / 50) + 1) + Math.ceil(time / 100))
+            this.speed = 20
 
             this.elem = document.createElement('p')
             enemyDIV.appendChild(this.elem)
             this.elem.classList.add('enemy')
+            
+            if (this.life > 1) {
+                var d = Math.random();
+                if (d < 0.7) { 
+                    this.speed = 5
+                    this.elem.style.color = 'green'
+                    this.life = Math.ceil(this.life / 2)
+                }
+            }
+
             this.spawn()
-
-
             this.moveToPerso()
         }
         moveToPerso() {
@@ -242,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             setTimeout(() => {
                 this.moveToPerso()
-            }, 20)
+            }, this.speed)
         }
 
         spawn() {
@@ -508,11 +518,29 @@ document.addEventListener('DOMContentLoaded', () => {
     }))
     powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
         persoLife++
-        if(persoLife == 2){persoO.classList.remove('hidden')}else if(persoLife == 3){persoI.classList.remove('hidden')}
+        if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
         closepowerupMenu()
     }))
     powerupArray.push(new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
-        explodeRadius += 50
+        explodeRadius = Math.ceil(explodeRadius * 1.50)
+        let radius = Math.ceil(Number(CSS.getPropertyValue('--explode-radius1').replace('%', '')) * 1.50);
+
+        document.documentElement.style.setProperty('--explode-radius1', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius2', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius3', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius4', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius5', radius + '%');
+
+        console.log(CSS.getPropertyValue('--explode-radius1'))
+        console.log(CSS.getPropertyValue('--explode-radius2'))
+        console.log(CSS.getPropertyValue('--explode-radius3'))
+        console.log(CSS.getPropertyValue('--explode-radius4'))
+        console.log(CSS.getPropertyValue('--explode-radius5'))
+
         closepowerupMenu()
     }))
 
@@ -520,7 +548,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
+    let mouseX = 0
+    let mouseY = 0
+    document.onmousemove = (e) => {
+        mouseX = e.pageX
+        mouseY = e.pageY
+        // console.log(mouseX + " / " + mouseY)
+    }
 
     //enlever le menu du clic droit
     document.addEventListener('contextmenu', event => {
