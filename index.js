@@ -68,6 +68,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let CSS = getComputedStyle(document.documentElement)
 
+    //Pause
+    let pauseDIV = document.getElementById('pauseDIV')
+    let pauseStatsDIV = document.getElementById('pauseStatsDIV')
+
 
 
 
@@ -104,6 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     function autoclickFunction() {
+        if (persoDEAD) { return }
         if (!autoclickON) { return }
         if (gamePAUSE) {
             setTimeout(autoclickFunction, cooldownTime + 1)
@@ -128,6 +133,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(autoclickFunction, cooldownTime + 1)
     }
     function tirFunction(id) {
+        if (persoDEAD) { return }
         tirIterationCount[id]++
 
         //crée le missile
@@ -333,6 +339,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //mouvement
     window.addEventListener('keydown', function (e) {
+
+        if (e.key == 'Escape') {
+            gamePAUSE = !gamePAUSE
+            if (gamePAUSE == false) { pauseDIV.classList.add('hidden') } else {
+                pauseDIV.classList.remove('hidden')
+                pausestatsmenuBUILD()
+            }
+            // console.log('ESCAPE')
+            return
+        }
         if (gamePAUSE) { return }
         if (gameON == false) {
             gameON = true
@@ -471,6 +487,7 @@ document.addEventListener('DOMContentLoaded', () => {
     class powerup {
         constructor(n, d, func) {
 
+            this.lvl = 0
             this.elem = document.createElement('div')
             powerupDIV.appendChild(this.elem)
             this.elem.classList.add('powerupDIVS')
@@ -488,16 +505,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function powerupMenu() {
-        console.log('Pupmenu Oppening...')
+        // console.log('Pupmenu Oppening...')
         powerupTitle.classList.remove('hidden')
         let tempARR = [...powerupArray]
-        console.log(tempARR)
+        // console.log(tempARR)
 
         //First element
         tempKey = Math.floor(Math.random() * ((tempARR.length - 1) - 0 + 1) + 0)
         let tempOne = tempARR[tempKey]
         tempARR.splice(tempKey, 1)
-        console.log(tempARR)
+        // console.log(tempARR)
         tempOne.elem.style.left = '23.5vw'
         tempOne.elem.classList.remove('hidden')
 
@@ -505,7 +522,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tempKey = Math.floor(Math.random() * ((tempARR.length - 1) - 0 + 1) + 0)
         let tempTwo = tempARR[tempKey]
         tempARR.splice(tempKey, 1)
-        console.log(tempARR)
+        // console.log(tempARR)
         tempTwo.elem.style.left = '43.5vw'
         tempTwo.elem.classList.remove('hidden')
 
@@ -513,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         tempKey = Math.floor(Math.random() * ((tempARR.length - 1) - 0 + 1) + 0)
         let tempThree = tempARR[tempKey]
         tempARR.splice(tempKey, 1)
-        console.log(tempARR)
+        // console.log(tempARR)
         tempThree.elem.style.left = '63.5vw'
         tempThree.elem.classList.remove('hidden')
 
@@ -523,7 +540,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closepowerupMenu() {
-        console.log('menu closed')
+        // console.log('menu closed')
         powerupTitle.classList.add('hidden')
         tempARR = document.querySelectorAll('.powerupDIVS')
         tempARR.forEach(e => {
@@ -533,50 +550,95 @@ document.addEventListener('DOMContentLoaded', () => {
         powerupMenuPAUSE = true
     }
 
-    powerupArray.push(new powerup('I Need More Bullets', 'Get one more shot everytime you shoot', () => {
+
+
+    powerupArray.push(MOREBULLETs = new powerup('I Need More Bullets', 'Get one more shot everytime you shoot', () => {
+        if (powerupMenuPAUSE) { return }
+
+        MOREBULLETs.lvl++
         tirITERATION++
+
         closepowerupMenu()
     }))
-    powerupArray.push(new powerup('Quick Reading', 'Shoot faster by 15%', () => {
+
+    powerupArray.push(QuickReading = new powerup('Quick Reading', 'Shoot faster by 15%', () => {
         if (powerupMenuPAUSE) { return }
+
+        QuickReading.lvl++
         cooldownTime -= cooldownTime * 0.15
+
         closepowerupMenu()
     }))
-    // powerupArray.push(new powerup('betterFASTERstronger', 'Move faster !', () => {
-    //     if (powerupMenuPAUSE) { return }
-    //     mooveSpeed++
-    //     closepowerupMenu()
-    // }))
-    // powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
-    //     if (powerupMenuPAUSE) { return }
-    //     persoLife++
-    //     if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
-    //     closepowerupMenu()
-    // }))
-    // powerupArray.push(new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
-    //     if (powerupMenuPAUSE) { return }
-    //     explodeRadius = Math.ceil(explodeRadius * 1.50)
-    //     let radius = Math.ceil(Number(CSS.getPropertyValue('--explode-radius1').replace('%', '')) * 1.50);
 
-    //     document.documentElement.style.setProperty('--explode-radius1', radius + '%');
-    //     radius = Math.ceil(radius * 1.25)
-    //     document.documentElement.style.setProperty('--explode-radius2', radius + '%');
-    //     radius = Math.ceil(radius * 1.25)
-    //     document.documentElement.style.setProperty('--explode-radius3', radius + '%');
-    //     radius = Math.ceil(radius * 1.25)
-    //     document.documentElement.style.setProperty('--explode-radius4', radius + '%');
-    //     radius = Math.ceil(radius * 1.25)
-    //     document.documentElement.style.setProperty('--explode-radius5', radius + '%');
-
-    //     closepowerupMenu()
-    // }))
-    powerupArray.push(new powerup('I NEED MORE DAMAGE', 'Deal one more damage each shot', () => {
+    powerupArray.push(betterFASTERstronger = new powerup('betterFASTERstronger', 'Move faster !', () => {
         if (powerupMenuPAUSE) { return }
+
+        betterFASTERstronger.lvl++
+        mooveSpeed++
+
+        closepowerupMenu()
+    }))
+
+    powerupArray.push(HealingSorcery = new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
+        if (powerupMenuPAUSE) { return }
+
+        HealingSorcery.lvl++
+        persoLife++
+        if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
+
+        closepowerupMenu()
+    }))
+
+    powerupArray.push(BiggerExplosions = new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
+        if (powerupMenuPAUSE) { return }
+
+        BiggerExplosions.lvl++
+        explodeRadius = Math.ceil(explodeRadius * 1.50)
+        let radius = Math.ceil(Number(CSS.getPropertyValue('--explode-radius1').replace('%', '')) * 1.50);
+
+        document.documentElement.style.setProperty('--explode-radius1', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius2', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius3', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius4', radius + '%');
+        radius = Math.ceil(radius * 1.25)
+        document.documentElement.style.setProperty('--explode-radius5', radius + '%');
+
+        closepowerupMenu()
+    }))
+
+    powerupArray.push(MoreDamage = new powerup('I NEED MORE DAMAGE', 'Deal one more damage each shot', () => {
+        if (powerupMenuPAUSE) { return }
+
+        MoreDamage.lvl++
         damageDEAL++
+
         closepowerupMenu()
     }))
 
 
+
+    function pausestatsmenuBUILD() {
+        pauseStatsDIV.innerHTML = ''
+        powerupArray.forEach(function (e) {
+            console.log(e)
+            if (e.lvl != 0) {
+                pauseStatsDIV.innerHTML += "<div id='" + e.nameP.innerHTML + "'></div>"
+                let s = document.getElementById(e.nameP.innerHTML)
+                s.style.display = 'flex'
+                s.style.width = '100%'
+                let s1 = document.createElement('p')
+                let s2 = document.createElement('p')
+                pauseStatsDIV.appendChild(s)
+                s.appendChild(s1)
+                s.appendChild(s2)
+                s1.innerHTML = e.nameP.innerHTML + " levels"
+                s2.innerHTML = ': ' + e.lvl
+            }
+        })
+    }
 
 
 

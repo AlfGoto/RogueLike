@@ -15,6 +15,16 @@
 </head>
 
 <body>
+
+    <div id='pauseDIV' class='hidden'>
+        <h1>Game paused</h1>
+        <p id='pressescape'>Press escape to resume</p>
+        <div id='pauseStatsDIV'></div>
+    </div>
+
+
+
+
     <div id='perso'>
         <p>TOI</p>
     </div>

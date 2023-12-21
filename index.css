@@ -16,6 +16,30 @@
 
 
 
+#pauseDIV{
+    background-color: rgba(255, 0, 0, 0.224);
+    backdrop-filter: blur(2px);
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    justify-content: center;
+    text-align: center;
+    display: inline-block;
+    height: 80vh;
+    width: 60vw;
+    z-index: 40;
+}
+#pressescape{
+    position: relative;
+    bottom: 3%;
+    font-style: italic;
+    font-size: 2vh;
+    color: rgb(105, 103, 103);
+}
+#pauseStatsDIV{
+    text-align: center;
+}
+
 
 
 
@@ -111,7 +135,7 @@ p{
 
 .powerupDIVS{
     position: absolute;
-    backdrop-filter: blur(1px);
+    backdrop-filter: blur(2px);
     background-color: rgba(238, 130, 238, 0.491);
     border-radius: 1vh;
     height: 40vh;
