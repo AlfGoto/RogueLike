@@ -8,6 +8,7 @@
 
 
 <head>
+    <title>Paragraph/</title>
     <link rel='stylesheet' href='index.css'>
     </link>
     <script src='index.js'></script>
@@ -30,10 +31,14 @@
             <div id='xpPROGRESS'></div>
         </div>
     </div>
-    <div id='lvlDIV'><p id='lvl'>level 1</p></div>
+    <div id='lvlDIV'>
+        <p id='lvl'>level 1</p>
+    </div>
 
 
-    <div id='powerupDIV'><h2 id='powerupTitle' class='hidden'>Chose a power up !</h2></div>
+    <div id='powerupDIV'>
+        <h2 id='powerupTitle' class='hidden'>Chose a power up !</h2>
+    </div>
 
 </body>
 

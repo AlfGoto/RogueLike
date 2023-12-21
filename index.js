@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let cooldownTime = 1000
     let mooveSpeed = 2
     let tirITERATION = 1
-    let tirIterationCount = 0
+    let tirIterationCount = []
     let explodeRadius = 50
 
     let CSS = getComputedStyle(document.documentElement)
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.which == 3) {
             autoclickON = !autoclickON
             autoclickFunction()
-            console.log('autoclick = ' + autoclickON)
+            // console.log('autoclick = ' + autoclickON)
         }
         if (e.which == 1) {
             if (gamePAUSE) { return }
@@ -85,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 }, cooldownTime)
                 cooldown = true
 
-                tirIterationCount = 0
-
-                tirFunction()
+                tirCount++
+                tirIterationCount[tirCount] = 0
+                tirFunction(tirCount)
 
             } else {
                 perso.style.color = 'gray'
@@ -114,9 +114,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }, cooldownTime)
             cooldown = true
 
-            tirIterationCount = 0
-
-            tirFunction()
+            tirCount++
+            tirIterationCount[tirCount] = 0
+            tirFunction(tirCount)
 
         } else {
             perso.style.color = 'gray'
@@ -126,16 +126,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         setTimeout(autoclickFunction, cooldownTime + 1)
     }
-    function tirFunction() {
-        tirIterationCount++
-        tirCount++
+    function tirFunction(id) {
+        tirIterationCount[id]++
 
         //crée le missile
         tir = document.createElement('p')
         tirDiv.appendChild(tir)
         tir.innerHTML = randomOnno().toLowerCase()
         tir.classList.add('tir')
-        tir.setAttribute("id", tirCount)
 
         //le place et l'envoie
         tir.style.left = persoCSS['left']
@@ -143,11 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
         let distance = speedCalcul(Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), mouseX, mouseY, 30)
         tirMovment(tir, Number(persoCSS['left'].replace('px', '')), Number(persoCSS['top'].replace('px', '')), mouseX, mouseY, 0, distance)
 
-        if (tirIterationCount != tirITERATION) {
+        if (tirIterationCount[id] != tirITERATION) {
             setTimeout(() => {
-                tirFunction()
-            }, 150)
-        }
+                tirFunction(id)
+            }, 50)
+        } else { tirIterationCount.splice(id, 1) }
     }
     function finMovment(obj) {
         //animation de fin de mouvement
@@ -176,7 +174,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             remnant.remove()
             return
-        }, 60000)
+        }, 30000)
     }
     function nextLetter() {
         if (currentLetter == 25) { currentLetter = 0 } else { currentLetter++ }
@@ -430,8 +428,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 1)
     }
-
-
 
 
 
