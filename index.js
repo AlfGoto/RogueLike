@@ -64,6 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let tirITERATION = 1
     let tirIterationCount = []
     let explodeRadius = 50
+    let damageDEAL = 1
 
     let CSS = getComputedStyle(document.documentElement)
 
@@ -294,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         destroy() {
-            if (this.life <= 1) {
+            if (this.life <= damageDEAL) {
                 xpADD()
                 // console.log(this.number + ' is dead')
                 mechants.splice(mechants.indexOf(this), 1)
@@ -303,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 this.elem.remove()
             } else {
-                this.life -= 1
+                this.life -= damageDEAL
                 this.elem.innerHTML = this.life
             }
 
@@ -538,35 +539,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }))
     powerupArray.push(new powerup('Quick Reading', 'Shoot faster by 15%', () => {
         if (powerupMenuPAUSE) { return }
-        cooldownTime -= (cooldownTime / 100) * 15
+        cooldownTime -= cooldownTime * 0.15
         closepowerupMenu()
     }))
-    powerupArray.push(new powerup('betterFASTERstronger', 'Move faster !', () => {
-        if (powerupMenuPAUSE) { return }
-        mooveSpeed++
-        closepowerupMenu()
-    }))
-    powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
-        if (powerupMenuPAUSE) { return }
-        persoLife++
-        if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
-        closepowerupMenu()
-    }))
-    powerupArray.push(new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
-        if (powerupMenuPAUSE) { return }
-        explodeRadius = Math.ceil(explodeRadius * 1.50)
-        let radius = Math.ceil(Number(CSS.getPropertyValue('--explode-radius1').replace('%', '')) * 1.50);
+    // powerupArray.push(new powerup('betterFASTERstronger', 'Move faster !', () => {
+    //     if (powerupMenuPAUSE) { return }
+    //     mooveSpeed++
+    //     closepowerupMenu()
+    // }))
+    // powerupArray.push(new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
+    //     if (powerupMenuPAUSE) { return }
+    //     persoLife++
+    //     if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
+    //     closepowerupMenu()
+    // }))
+    // powerupArray.push(new powerup('Bigger Explosions', "Bigger explosions, everything is in the title what more do you want ? (augment radius by the first value it had at the start)", () => {
+    //     if (powerupMenuPAUSE) { return }
+    //     explodeRadius = Math.ceil(explodeRadius * 1.50)
+    //     let radius = Math.ceil(Number(CSS.getPropertyValue('--explode-radius1').replace('%', '')) * 1.50);
 
-        document.documentElement.style.setProperty('--explode-radius1', radius + '%');
-        radius = Math.ceil(radius * 1.25)
-        document.documentElement.style.setProperty('--explode-radius2', radius + '%');
-        radius = Math.ceil(radius * 1.25)
-        document.documentElement.style.setProperty('--explode-radius3', radius + '%');
-        radius = Math.ceil(radius * 1.25)
-        document.documentElement.style.setProperty('--explode-radius4', radius + '%');
-        radius = Math.ceil(radius * 1.25)
-        document.documentElement.style.setProperty('--explode-radius5', radius + '%');
+    //     document.documentElement.style.setProperty('--explode-radius1', radius + '%');
+    //     radius = Math.ceil(radius * 1.25)
+    //     document.documentElement.style.setProperty('--explode-radius2', radius + '%');
+    //     radius = Math.ceil(radius * 1.25)
+    //     document.documentElement.style.setProperty('--explode-radius3', radius + '%');
+    //     radius = Math.ceil(radius * 1.25)
+    //     document.documentElement.style.setProperty('--explode-radius4', radius + '%');
+    //     radius = Math.ceil(radius * 1.25)
+    //     document.documentElement.style.setProperty('--explode-radius5', radius + '%');
 
+    //     closepowerupMenu()
+    // }))
+    powerupArray.push(new powerup('I NEED MORE DAMAGE', 'Deal one more damage each shot', () => {
+        if (powerupMenuPAUSE) { return }
+        damageDEAL++
         closepowerupMenu()
     }))
 
