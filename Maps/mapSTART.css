@@ -1,3 +1,10 @@
+*{
+    box-sizing: border-box;
+}
+
+.mapName{
+    font-size: 2.5vh;
+}
 #mapAREA{
     background-color: blue;
     height: 1000vh;
@@ -11,6 +18,14 @@
     width: 100vh;
     position: absolute;
     z-index: 15;
+}
+.roomArea{
+    background-color: white;
+    height: 90vh;
+    width: 90vh;
+    position: absolute;
+    top: 5vh;
+    left: 5vh;
 }
 #room0{
     background-color: red;
@@ -51,4 +66,21 @@
 #room9{
     background-color: orange;
     top: 0vh;
+}
+
+.ptop{
+    background-color: black;
+    position: absolute;
+    top: 0vh;
+    left: 40vh;
+    height: 2vh;
+    width: 15vh;
+}
+.pbot{
+    background-color: black;
+    position: absolute;
+    bottom: 0vh;
+    left: 40vh;
+    height: 2vh;
+    width: 15vh;
 }
