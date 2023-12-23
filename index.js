@@ -317,9 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-
-
-
+    
 
 
     let mechants = []
@@ -327,12 +325,24 @@ document.addEventListener('DOMContentLoaded', () => {
     setInterval(() => {
         if (gameON && !persoDEAD && !gamePAUSE) {
             time++
-            timer.innerHTML = time + ' secondes'
+            timer.innerHTML = secondsToMinutes(time)
             if (time % 1 == 0) {
                 mechants.push(new enemy())
             }
         }
     }, 1000);
+    function secondsToMinutes(nb){
+        if(nb<60){
+            return nb + 'seconds'
+        } else {
+            let minutes = 0
+            while(nb > 60){
+                nb = nb - 60
+                minutes++
+            }
+            return minutes + ' minutes, ' + nb + ' seconds'
+        }
+    }
 
 
 

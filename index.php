@@ -34,7 +34,7 @@
 
     <div id='DIVenemy'></div>
 
-    <p id='timer'>0 secondes</p>
+    <p id='timer'>0 seconds</p>
 
     <div id='xpDIV'>
         <div id='xpBAR'>
