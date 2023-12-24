@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.listeNB = []
     window.rooms = []
 
+
+    //ça sera enlevable ça
     for (let i = 0; i < 100; i++) {
         temp = []
         if (i < 10) { temp['top'] = true } else { temp['top'] = false }
@@ -77,9 +79,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     //Donner les infos pour chaques salles
+    window.roomsinfo = []
     rooms.forEach(element => {
-        console.log(element)
+        temp = []
+        if (rooms.includes(element - 10)) { temp['top'] = true } else { temp['top'] = false }
+        if (rooms.includes(element + 10)) { temp['bot'] = true } else { temp['bot'] = false }
+        if (rooms.includes(element - 1)) { temp['left'] = true } else { temp['left'] = false }
+        if (rooms.includes(element + 1)) { temp['right'] = true } else { temp['right'] = false }
+        roomsinfo[element] = temp
+        // console.log(element)
     });
+    console.log(roomsinfo)
 
-    
+
 })

@@ -5,17 +5,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //initialisation de la premiere salle
     function buildROOM(room) {
+        // console.log(roomsinfo[room])
         mapAREA.innerHTML = "<p class='mapName'>room " + room + "</p><div id='roomArea'></div >"
         let portes = ''
-        if (!listeNB[room]['top']) { portes += "<div class='ptop'></div>" }
-        if (!listeNB[room]['bot']) { portes += "<div class='pbot'></div>" }
-        if (!listeNB[room]['left']) { portes += "<div class='pleft'></div>" }
-        if (!listeNB[room]['right']) { portes += "<div class='pright'></div>" }
+        if (roomsinfo[room]['top']) { portes += "<div class='ptop'></div>" }
+        if (roomsinfo[room]['bot']) { portes += "<div class='pbot'></div>" }
+        if (roomsinfo[room]['left']) { portes += "<div class='pleft'></div>" }
+        if (roomsinfo[room]['right']) { portes += "<div class='pright'></div>" }
         let roomArea = document.getElementById('roomArea')
         roomArea.innerHTML = portes
     }
 
-    // console.log(listeNB)
+
+    // console.log(roomsinfo)
     buildROOM(55)
 
 
@@ -97,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
             top -= 0.5
             if (top < ptopPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX) { return }
-                if (!listeNB[persoROOM]['top']) {
+                if (roomsinfo[persoROOM]['top']) {
                     persoROOM -= 10
                     buildROOM(persoROOM)
                     perso.style.top = 82 + 'vh'
@@ -118,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
             top += 0.5
             if (top > pbotPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX) { return }
-                if (!listeNB[persoROOM]['bot']) {
+                if (roomsinfo[persoROOM]['bot']) {
                     persoROOM += 10
                     buildROOM(persoROOM)
                     perso.style.top = 8 + 'vh'
@@ -139,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             left += 0.5
             if (left > prightPOSX) {
                 if (top < pxPOSminY || top > pxPOSmaxY) { return }
-                if (!listeNB[persoROOM]['right']) {
+                if (roomsinfo[persoROOM]['right']) {
                     persoROOM += 1
                     buildROOM(persoROOM)
                     perso.style.top = 48 + 'vh'
@@ -160,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             left -= 0.5
             if (left < pleftPOSX) {
                 if (top < pxPOSminY || top > pxPOSmaxY) { return }
-                if (!listeNB[persoROOM]['left']) {
+                if (roomsinfo[persoROOM]['left']) {
                     persoROOM -= 1
                     buildROOM(persoROOM)
                     perso.style.top = 48 + 'vh'

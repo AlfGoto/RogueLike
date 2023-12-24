@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     persoROOM = 55
-    buildROOM(persoROOM)
+    // buildROOM(persoROOM)
 
     document.addEventListener('keydown', (e) => {
         if (e.key == 'o') {
