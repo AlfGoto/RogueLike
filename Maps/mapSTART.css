@@ -1,86 +1,72 @@
 *{
-    box-sizing: border-box;
+    overflow: hidden;
 }
-
+#perso{
+    position: absolute;
+    top: 50vh;
+    left: 50vh;
+    display: flex;
+    margin: 0px;
+    z-index: 20;
+    font-size: 2.5vh;
+}
 .mapName{
+    position: absolute;
+    top: -1vh;
+    left: 1vh;
     font-size: 2.5vh;
 }
 #mapAREA{
     background-color: blue;
-    height: 1000vh;
-    width: 100vh;
-    position: absolute;
-    top: -900vh;
-    z-index: 10;
-}
-.room{
     height: 100vh;
     width: 100vh;
     position: absolute;
-    z-index: 15;
+    top: 0vh;
+    z-index: 10;
 }
-.roomArea{
-    background-color: white;
+#roomArea{
+    background-color: wheat;
     height: 90vh;
     width: 90vh;
     position: absolute;
     top: 5vh;
     left: 5vh;
 }
-#room0{
-    background-color: red;
-    top: 900vh;
-}
-#room1{
-    background-color: violet;
-    top: 800vh;
-}
-#room2{
-    background-color: yellow;
-    top: 700vh;
-}
-#room3{
-    background-color: wheat;
-    top: 600vh;
-}
-#room4{
-    background-color: lightgreen;
-    top: 500vh;
-}
-#room5{
-    background-color: green;
-    top: 400vh;
-}
-#room6{
-    background-color: pink;
-    top: 300vh;
-}
-#room7{
-    background-color: orangered;
-    top: 200vh;
-}
-#room8{
-    background-color: gray;
-    top: 100vh;
-}
-#room9{
-    background-color: orange;
-    top: 0vh;
-}
+
 
 .ptop{
     background-color: black;
     position: absolute;
-    top: 0vh;
+    top: -1vh;
     left: 40vh;
     height: 2vh;
     width: 15vh;
+    z-index: 20;
 }
 .pbot{
     background-color: black;
     position: absolute;
-    bottom: 0vh;
+    bottom: -1vh;
     left: 40vh;
     height: 2vh;
     width: 15vh;
+    z-index: 20;
+}
+.pleft{
+    background-color: black;
+    position: absolute;
+    left: -1vh;
+    top: 40vh;
+    height: 15vh;
+    width: 2vh;
+    z-index: 20;
+}
+.pright{
+    background-color: black;
+    position: absolute;
+    right: -1vh;
+    top: 40vh;
+    height: 15vh;
+    width: 2vh;
+    z-index: 20;
 }
