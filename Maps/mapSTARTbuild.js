@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
             room = 55
             temp = []
             temp['id'] = room
-            rooms.push(temp)
+            rooms.push(room)
             roomsleft.splice(room, 1)
         } else {
             room = nextroomfunction()
@@ -51,20 +51,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         roomadded = temp[Math.floor(Math.random() * temp.length)]
-        temp = []
-        temp['id'] = roomadded
-        console.log(roomadded)
-        rooms.push(temp)
+        // console.log(roomadded)
+        rooms.push(roomadded)
         roomsleft.splice(roomsleft.indexOf(roomadded), 1)
 
         roombasegenerate.push(room)
     }
 
+    // console.log(rooms)
 
 
 
     function nextroomfunction() {
-        let nextroom = rooms[Math.floor(Math.random() * rooms.length)]['id']
+        let nextroom = rooms[Math.floor(Math.random() * rooms.length)]
         if (roombasegenerate.includes(nextroom)) {
             if (Math.random() < 0.9) { return nextroomfunction() } else { return nextroom }
         } else {
@@ -73,4 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
+
+
+
+
+    //Donner les infos pour chaques salles
+    rooms.forEach(element => {
+        console.log(element)
+    });
+
+    
 })
