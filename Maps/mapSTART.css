@@ -1,6 +1,11 @@
 *{
     overflow: hidden;
 }
+.hidden{
+    visibility: hidden;
+}
+
+
 #perso{
     position: absolute;
     top: 50vh;
@@ -38,7 +43,7 @@
     background-color: black;
     position: absolute;
     top: -1vh;
-    left: 40vh;
+    left: 38vh;
     height: 2vh;
     width: 15vh;
     z-index: 20;
@@ -47,7 +52,7 @@
     background-color: black;
     position: absolute;
     bottom: -1vh;
-    left: 40vh;
+    left: 38vh;
     height: 2vh;
     width: 15vh;
     z-index: 20;
@@ -56,7 +61,7 @@
     background-color: black;
     position: absolute;
     left: -1vh;
-    top: 40vh;
+    top: 38vh;
     height: 15vh;
     width: 2vh;
     z-index: 20;
@@ -65,8 +70,35 @@
     background-color: black;
     position: absolute;
     right: -1vh;
-    top: 40vh;
+    top: 38vh;
     height: 15vh;
     width: 2vh;
     z-index: 20;
+}
+
+#grid{
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+    left: 100vh;
+    height: 20vh;
+    width: 20vh;
+}
+
+.square{
+    box-sizing: border-box;
+    height: 2vh;
+    width: 2vh;
+    border: solid 0.1vh rgb(144, 144, 144);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.4vh;
+    margin: 0.1vh;
+}
+.ROOMfound{
+    background-color: wheat;
+}
+.ROOMfirst{
+    background-color: rgb(244, 213, 156) !important;
 }

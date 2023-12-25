@@ -21,6 +21,7 @@
         </div>
 
         <div id='mapAREA'></div>
+        <div id='grid'></div>
     </body>
 
 

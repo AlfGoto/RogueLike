@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     let innerHeight = Number(window.getComputedStyle(mapAREA)['height'].replace('px', ''))
-    let persoROOM = 55
+    let persoROOM = 44
+    let grid = document.getElementById('grid')
 
 
     //initialisation de la premiere salle
@@ -14,11 +15,20 @@ document.addEventListener('DOMContentLoaded', () => {
         if (roomsinfo[room]['right']) { portes += "<div class='pright'></div>" }
         let roomArea = document.getElementById('roomArea')
         roomArea.innerHTML = portes
+
+        //mini map
+        let square = grid.querySelector("[id='" + room + "']")
+        square.classList.remove('hidden')
+        square.classList.add('ROOMfound')
+        if (roomsinfo[room]['top']) { grid.querySelector("[id='" + (room - 9) + "']").classList.remove('hidden') }
+        if (roomsinfo[room]['bot']) { grid.querySelector("[id='" + (room + 9) + "']").classList.remove('hidden') }
+        if (roomsinfo[room]['left']) { grid.querySelector("[id='" + (room - 1) + "']").classList.remove('hidden') }
+        if (roomsinfo[room]['right']) { grid.querySelector("[id='" + (room + 1) + "']").classList.remove('hidden') }
     }
 
 
     // console.log(roomsinfo)
-    buildROOM(55)
+    buildROOM(persoROOM)
 
 
     //PERSO
@@ -82,13 +92,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     //PORTES
-    let pPOSminX = 46
-    let pPOSmaxX = 60
+    let pPOSminX = 40
+    let pPOSmaxX = 55
     let ptopPOSY = 2.5
     let pbotPOSY = 90
 
-    let pxPOSminY = 42
-    let pxPOSmaxY = 60
+    let pxPOSminY = 40
+    let pxPOSmaxY = 55
     let pleftPOSX = 6
     let prightPOSX = 92
 
@@ -100,7 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (top < ptopPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX) { return }
                 if (roomsinfo[persoROOM]['top']) {
-                    persoROOM -= 10
+                    persoROOM -= 9
                     buildROOM(persoROOM)
                     perso.style.top = 82 + 'vh'
                     perso.style.left = 52 + 'vh'
@@ -121,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (top > pbotPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX) { return }
                 if (roomsinfo[persoROOM]['bot']) {
-                    persoROOM += 10
+                    persoROOM += 9
                     buildROOM(persoROOM)
                     perso.style.top = 8 + 'vh'
                     perso.style.left = 52 + 'vh'
