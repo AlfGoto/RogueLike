@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let perso = document.getElementById('perso')
     window.perso = perso
     window.persoName = 'TOI'
-    perso.innerHTML = '<p id="T">' + persoName[0] + '</p><p id="O">' + persoName[1] + '</p><p id="I">' + persoName[2] + '</p>'
+    perso.innerHTML = "<div id='TOIDIV'><p id='T'>" + persoName[0] + '</p><p id="O">' + persoName[1] + '</p><p id="I">' + persoName[2] + '</p></div>'
     window.persoT = document.getElementById('T')
     window.persoO = document.getElementById('O')
     window.persoI = document.getElementById('I')
@@ -31,27 +31,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let ok = new funcCLASS()
     ok.call('fonctions globales fonctionnelles')
-    class persoCLASS {
-        hit() {
-            if (invulnerabilityPeriod) { return }
-            invulnerabilityPeriod = true
-            setTimeout(() => {
-                invulnerabilityPeriod = false
-            }, 1000)
-            persoLife--
-            if (persoLife <= 0) {
-                gameON = false
-                persoDEAD = true
-                perso.remove()
-                console.log('perso dead')
-            } else if (persoLife == 1) {
-                window.persoO.classList.add('hidden')
-            } else if (persoLife == 2) {
-                window.persoI.classList.add('hidden')
-            }
-        }
-    }
-    window.persoCLASS = persoCLASS
+    // class persoCLASS {
+    //     hit() {
+    //         if (invulnerabilityPeriod) { return }
+    //         invulnerabilityPeriod = true
+    //         setTimeout(() => {
+    //             invulnerabilityPeriod = false
+    //         }, 1000)
+    //         persoLife--
+    //         if (persoLife <= 0) {
+    //             gameON = false
+    //             persoDEAD = true
+    //             perso.remove()
+    //             console.log('perso dead')
+    //         } else if (persoLife == 1) {
+    //             window.persoO.classList.add('hidden')
+    //         } else if (persoLife == 2) {
+    //             window.persoI.classList.add('hidden')
+    //         }
+    //     }
+    // }
+    // window.persoCLASS = persoCLASS
 
 
 
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //initialisation de la premiere salle
     function buildROOM(room) {
         // console.log(roomsinfo[room])
-        mapAREA.innerHTML = "<p class='mapName'>room " + room + "</p><div id='roomArea'></div >"
+        mapAREA.innerHTML = /* "<p class='mapName'>room " + room + "</p> */ "<div id='roomArea'></div >"
         let portes = ''
         if (roomsinfo[room]['top']) { portes += "<div class='ptop portes'></div>" }
         if (roomsinfo[room]['bot']) { portes += "<div class='pbot portes'></div>" }
@@ -98,9 +98,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     function spawnMECHANTSlvl1() {
         let nbMECHANTS = Math.floor(Math.random() * (6 - 1 + 1) + 1)
-        console.log(nbMECHANTS)
+        // console.log(nbMECHANTS)
         for (let i = 0; i < nbMECHANTS; i++) {
-            roomMECHANTS.push(new gnome)
+            let rand = Math.floor(Math.random() * 2);
+            console.log('rand = ' + rand)
+            if (rand == 0) { roomMECHANTS.push(new gnome); }
+            if (rand == 1) { roomMECHANTS.push(new goblin); }
         }
     }
 
@@ -169,13 +172,13 @@ document.addEventListener('DOMContentLoaded', () => {
     //PORTES
     let pPOSminX = 40
     let pPOSmaxX = 55
-    let ptopPOSY = 2.5
-    let pbotPOSY = 90
+    let ptopPOSY = 6.5
+    let pbotPOSY = 94.5
 
     let pxPOSminY = 40
     let pxPOSmaxY = 55
-    let pleftPOSX = 6
-    let prightPOSX = 92
+    let pleftPOSX = 8
+    let prightPOSX = 93.5
 
     function zfonction() {
         setTimeout(() => {

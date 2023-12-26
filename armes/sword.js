@@ -6,7 +6,6 @@ window.onload = () => {
 
     let tirDiv = document.getElementById('TIR')
     let tirCount = 0
-    let remnantDIV = document.getElementById('DIVremnant')
     window.persoCSS = window.getComputedStyle(perso)
     window.cooldown = false
     window.cooldownTime = 650
@@ -14,7 +13,6 @@ window.onload = () => {
     window.damageDEAL = 1
     let tirITERATION = 1
     let tirIterationCount = []
-    let proj = '<>==[]:::::::::::>'
     let autoclickON = false;
 
     document.addEventListener('pointerdown', (e) => {
@@ -78,10 +76,15 @@ window.onload = () => {
         tirIterationCount[id]++
 
         //crée le missile
-        tir = document.createElement('p')
-        tir.style.fontSize = '1.1vh'
+        tir = document.createElement('div')
+        img = document.createElement('img')
+        img.setAttribute('src', '../img/sword.png')
+        img.style.height = '1.5vh'
+        tir.appendChild(img)
+        // tir = document.createElement('img')
+        // tir.setAttribute('src', '../img/sword.png');
+        tir.style.height = '2vh'
         tirDiv.appendChild(tir)
-        tir.innerHTML = proj
         tir.classList.add('tir')
 
         angle = Math.atan2(mX - Number(persoCSS['left'].replace('px', '')), - (mY - Number(persoCSS['top'].replace('px', '')))) * (180 / Math.PI);
@@ -115,8 +118,8 @@ window.onload = () => {
                 }
             });
 
-            if (PXtoVH(Number(obj.style.top.replace('px', ''))) < -20 || PXtoVH(Number(obj.style.top.replace('px', ''))) > 120 ||
-                PXtoVH(Number(obj.style.left.replace('px', ''))) < -20 || PXtoVH(Number(obj.style.left.replace('px', ''))) > 120) {
+            if (PXtoVH(Number(obj.style.top.replace('px', ''))) < 5 || PXtoVH(Number(obj.style.top.replace('px', ''))) > 95 ||
+                PXtoVH(Number(obj.style.left.replace('px', ''))) < 5 || PXtoVH(Number(obj.style.left.replace('px', ''))) > 95) {
                 obj.remove()
             } else { tirMouvment(obj, dirY, dirX) }
 

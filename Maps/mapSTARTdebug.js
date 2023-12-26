@@ -14,9 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('click', (e)=>{
-        console.log(' ')
-        console.log('x = ' + PXtoVH(e.pageX))
-        console.log('y = ' + PXtoVH(e.pageY))
+        // console.log(' ')
+        // console.log('x = ' + PXtoVH(e.pageX))
+        // console.log('y = ' + PXtoVH(e.pageY))
     })
 
 

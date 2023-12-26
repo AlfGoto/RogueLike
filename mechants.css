@@ -3,3 +3,8 @@
     font-size: 2.5vh;
     z-index: 29;
 }
+.gnome{
+    position: relative;
+    left: -50%;
+    margin-top: -50%;
+}

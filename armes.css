@@ -18,6 +18,7 @@ p{
     position: absolute;
     font-size: 2vh;
     z-index: 30;
+    overflow: visible;
 }
 
 @keyframes explode{
@@ -55,3 +56,8 @@ p{
     filter: blur(1px);
 }
 
+.tir img{
+    position: relative;
+    margin-top: -50%;
+    left: -50%;
+}

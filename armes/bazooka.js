@@ -9,7 +9,7 @@ window.onload = () => {
     let remnantDIV = document.getElementById('DIVremnant')
     window.persoCSS = window.getComputedStyle(perso)
     window.cooldown = false
-    window.cooldownTime = 1000
+    window.cooldownTime = 1500
     window.explodeRadius = 50
     window.damageDEAL = 1
     let tirITERATION = 1
