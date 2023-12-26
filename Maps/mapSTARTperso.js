@@ -1,7 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
+
     let innerHeight = Number(window.getComputedStyle(mapAREA)['height'].replace('px', ''))
+    window.innerHeight = innerHeight
+    //resize
+    addEventListener("resize", (event) => {
+        innerHeight = Number(window.getComputedStyle(mapAREA)['height'].replace('px', ''))
+        window.innerHeight = innerHeight
+    });
+
+
+    //PERSO
+    let perso = document.getElementById('perso')
+    window.perso = perso
+    window.persoName = 'TOI'
+    perso.innerHTML = '<p id="T">' + persoName[0] + '</p><p id="O">' + persoName[1] + '</p><p id="I">' + persoName[2] + '</p>'
+    window.persoT = document.getElementById('T')
+    window.persoO = document.getElementById('O')
+    window.persoI = document.getElementById('I')
+    window.persoCSS = window.getComputedStyle(perso)
+    perso.style.left = '50 vh'
+    perso.style.top = '50 vh'
     let persoROOM = 44
     let grid = document.getElementById('grid')
+    window.persoDEAD = false
+    window.autoclickON = false
+    let persoLife = 3
+    window.persoLife = persoLife
+
+
+
+    let ok = new funcCLASS()
+    ok.call('fonctions globales fonctionnelles')
+    class persoCLASS {
+        hit() {
+            if (invulnerabilityPeriod) { return }
+            invulnerabilityPeriod = true
+            setTimeout(() => {
+                invulnerabilityPeriod = false
+            }, 1000)
+            persoLife--
+            if (persoLife <= 0) {
+                gameON = false
+                persoDEAD = true
+                perso.remove()
+                console.log('perso dead')
+            } else if (persoLife == 1) {
+                window.persoO.classList.add('hidden')
+            } else if (persoLife == 2) {
+                window.persoI.classList.add('hidden')
+            }
+        }
+    }
+    window.persoCLASS = persoCLASS
+
+
+
 
 
     //initialisation de la premiere salle
@@ -9,12 +62,24 @@ document.addEventListener('DOMContentLoaded', () => {
         // console.log(roomsinfo[room])
         mapAREA.innerHTML = "<p class='mapName'>room " + room + "</p><div id='roomArea'></div >"
         let portes = ''
-        if (roomsinfo[room]['top']) { portes += "<div class='ptop'></div>" }
-        if (roomsinfo[room]['bot']) { portes += "<div class='pbot'></div>" }
-        if (roomsinfo[room]['left']) { portes += "<div class='pleft'></div>" }
-        if (roomsinfo[room]['right']) { portes += "<div class='pright'></div>" }
+        if (roomsinfo[room]['top']) { portes += "<div class='ptop portes'></div>" }
+        if (roomsinfo[room]['bot']) { portes += "<div class='pbot portes'></div>" }
+        if (roomsinfo[room]['left']) { portes += "<div class='pleft portes'></div>" }
+        if (roomsinfo[room]['right']) { portes += "<div class='pright portes'></div>" }
         let roomArea = document.getElementById('roomArea')
         roomArea.innerHTML = portes
+
+        //faire spawn les mobs
+        roomMECHANTS = []
+        if (!roomsinfo[room]['found']) {
+            roomsinfo[room]['found'] = true
+
+            spawnMECHANTSlvl1()
+        }
+
+
+
+
 
         //mini map
         let square = grid.querySelector("[id='" + room + "']")
@@ -24,19 +89,26 @@ document.addEventListener('DOMContentLoaded', () => {
         if (roomsinfo[room]['bot']) { grid.querySelector("[id='" + (room + 9) + "']").classList.remove('hidden') }
         if (roomsinfo[room]['left']) { grid.querySelector("[id='" + (room - 1) + "']").classList.remove('hidden') }
         if (roomsinfo[room]['right']) { grid.querySelector("[id='" + (room + 1) + "']").classList.remove('hidden') }
+
+        let temp = document.querySelectorAll('.ROOMin')
+        temp.forEach((e) => {
+            e.classList.remove('ROOMin')
+        })
+        square.classList.add('ROOMin')
     }
+    function spawnMECHANTSlvl1() {
+        let nbMECHANTS = Math.floor(Math.random() * (6 - 1 + 1) + 1)
+        console.log(nbMECHANTS)
+        for (let i = 0; i < nbMECHANTS; i++) {
+            roomMECHANTS.push(new gnome)
+        }
+    }
+
 
 
     // console.log(roomsinfo)
     buildROOM(persoROOM)
 
-
-    //PERSO
-    let perso = document.getElementById('perso')
-    perso.innerHTML = '<p>TOI</p>'
-    let persoCSS = window.getComputedStyle(perso)
-    perso.style.left = '50 vh'
-    perso.style.top = '50 vh'
 
 
     //MOUVEMENT
@@ -91,6 +163,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+
+
+
     //PORTES
     let pPOSminX = 40
     let pPOSmaxX = 55
@@ -108,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
             left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
             top -= 0.5
             if (top < ptopPOSY) {
-                if (left > pPOSmaxX || left < pPOSminX) { return }
+                if (left > pPOSmaxX || left < pPOSminX || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['top']) {
                     persoROOM -= 9
                     buildROOM(persoROOM)
@@ -129,7 +204,7 @@ document.addEventListener('DOMContentLoaded', () => {
             left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
             top += 0.5
             if (top > pbotPOSY) {
-                if (left > pPOSmaxX || left < pPOSminX) { return }
+                if (left > pPOSmaxX || left < pPOSminX || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['bot']) {
                     persoROOM += 9
                     buildROOM(persoROOM)
@@ -150,7 +225,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
             left += 0.5
             if (left > prightPOSX) {
-                if (top < pxPOSminY || top > pxPOSmaxY) { return }
+                if (top < pxPOSminY || top > pxPOSmaxY || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['right']) {
                     persoROOM += 1
                     buildROOM(persoROOM)
@@ -171,7 +246,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
             left -= 0.5
             if (left < pleftPOSX) {
-                if (top < pxPOSminY || top > pxPOSmaxY) { return }
+                if (top < pxPOSminY || top > pxPOSmaxY || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['left']) {
                     persoROOM -= 1
                     buildROOM(persoROOM)
@@ -191,5 +266,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function PXtoVH(nb) {
         return (nb / innerHeight) * 100
+    }
+    window.mouseX = 0
+    window.mouseY = 0
+    document.onmousemove = (e) => {
+        mouseX = e.pageX
+        mouseY = e.pageY
+        // console.log(mouseX + " / " + mouseY)
     }
 })

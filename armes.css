@@ -1,0 +1,57 @@
+*{
+    user-select: none;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+:root{
+    --explode-radius1 : 100%;
+    --explode-radius2 : 125%;
+    --explode-radius3 : 156%;
+    --explode-radius4 : 196%;
+    --explode-radius5 : 243%;
+}
+
+p{
+    margin: 0px;
+}
+.tir{
+    position: absolute;
+    font-size: 2vh;
+    z-index: 30;
+}
+
+@keyframes explode{
+    0%{
+        font-size: var(--explode-radius1);
+        filter: blur(0);
+        opacity: 100%;
+    }
+    25%{
+        font-size: var(--explode-radius2);
+        filter: blur(2px);
+        opacity: 75%;
+    }
+    50%{
+        font-size: var(--explode-radius3);
+        filter: blur(4px);
+        opacity: 50%;
+    }
+    75%{
+        font-size: var(--explode-radius4);
+        filter: blur(10px);
+        opacity: 25%;
+    }
+    100%{
+        font-size: var(--explode-radius5);
+        filter: blur(20px);
+        opacity: 0%;
+    }
+}
+
+.remnant{
+    position: absolute;
+    color: rgba(0, 0, 0, 0.08);
+    z-index: 1;
+    filter: blur(1px);
+}
+

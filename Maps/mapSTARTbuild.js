@@ -1,4 +1,27 @@
 document.addEventListener('DOMContentLoaded', () => {
+    window.gamePAUSE = false
+
+    class funcCLASS {
+        call(arg) {
+            console.log('func.call = ' + arg)
+        }
+    }
+
+    window.funcCLASS = funcCLASS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     window.rooms = []
 
 
@@ -14,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //commencer par la room 55. Prendre une des rooms a coté au pif pour la suivante. Puis prendre une des rooms a coté d'une des rooms déja générée qui n'est pas deja générée
     //Generer les mobs et plus tard les structures
-    console.log('nombre de rooms = ' + nbROOMS)
+    // console.log('nombre de rooms = ' + nbROOMS)
     for (let i = 0; i < nbROOMS; i++) {
         if (i == 0) {
             room = 44
@@ -74,6 +97,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (rooms.includes(element + 9)) { temp['bot'] = true } else { temp['bot'] = false }
         if (rooms.includes(element - 1)) { temp['left'] = true } else { temp['left'] = false }
         if (rooms.includes(element + 1)) { temp['right'] = true } else { temp['right'] = false }
+        if (element == 44) { temp['found'] = true } else { temp['found'] = false }
+
         roomsinfo[element] = temp
         // console.log(element)
     });
@@ -91,7 +116,7 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.appendChild(square);
         square.id = i;
         square.classList.add('hidden')
-        if(i == 44){
+        if (i == 44) {
             square.classList.add('ROOMfirst')
         }
     }
