@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    let persoARME = 'sword'
+    window.persoARME = 'sword'
 
 
 

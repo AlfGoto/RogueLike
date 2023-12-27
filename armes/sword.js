@@ -10,6 +10,7 @@ window.onload = () => {
     window.cooldown = false
     window.cooldownTime = 650
     window.radius = 20
+    window.taille = 1
     window.damageDEAL = 1
     let tirITERATION = 1
     let tirIterationCount = []
@@ -80,11 +81,11 @@ window.onload = () => {
         tir = document.createElement('div')
         img = document.createElement('img')
         img.setAttribute('src', '../img/sword.png')
-        img.style.height = '1.5vh'
+        img.style.height = (1.5 * taille) + 'vh'
         tir.appendChild(img)
         // tir = document.createElement('img')
         // tir.setAttribute('src', '../img/sword.png');
-        tir.style.height = '2vh'
+        tir.style.height = (2 * taille) + 'vh'
         tirDiv.appendChild(tir)
         tir.classList.add('tir')
 

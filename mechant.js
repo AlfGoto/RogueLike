@@ -13,10 +13,10 @@ document.addEventListener('DOMContentLoaded', () => {
             this.create()
             this.moveToPerso()
 
-            console.log(this.constructor.name + ' = ' + this.speed)
+            // console.log(this.constructor.name + ' = ' + this.speed)
         }
         moveToPerso() {
-            if (gamePAUSE) {
+            if (window.gamePAUSE) {
                 setTimeout(() => {
                     this.moveToPerso()
                 }, this.speed)
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         destroy() {
             if (this.life <= damageDEAL) {
-                //xpADD()
+                xp.add()
                 roomMECHANTS.splice(roomMECHANTS.indexOf(this), 1)
                 Object.getOwnPropertyNames(this).forEach(pName => {
                     delete this.pName;
@@ -129,4 +129,5 @@ document.addEventListener('DOMContentLoaded', () => {
     function PXtoVH(nb) {
         return (nb / innerHeight) * 100
     }
+    let xp = new xpCLASS
 })

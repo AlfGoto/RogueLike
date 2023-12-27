@@ -12,11 +12,12 @@
         <link rel='stylesheet' href='mapSTARTperso.css'>
         <link rel='stylesheet' href='../armes.css'>
         <link rel='stylesheet' href='../mechants.css'>
-        <script src='../mechant.js' type="text/javascript"></script>
+
         <script src='../armes.js' type="text/javascript"></script>
         <script src='mapSTARTbuild.js' type="text/javascript"></script>
         <script src='mapSTARTperso.js' type="text/javascript"></script>
         <script src='mapSTARTdebug.js' type="text/javascript"></script>
+        <script src='../mechant.js' type="text/javascript"></script>
     </head>
 
     <body>
@@ -30,6 +31,26 @@
         <div id='TIR'></div>
         <div id='DIVremnant'></div>
         <div id='DIVenemy'></div>
+
+        <div id='xpDIV'>
+            <div id='xpBAR'>
+                <div id='xpPROGRESS'></div>
+            </div>
+        </div>
+        <div id='lvlDIV'>
+            <p id='lvl'>level 1</p>
+        </div>
+
+
+        <div id='powerupDIV'>
+            <h2 id='powerupTitle' class='hidden'>Chose a power up !</h2>
+        </div>
+
+        <div id='pauseDIV' class='hidden'>
+            <h1>Game paused</h1>
+            <p id='pressescape'>Press escape to resume</p>
+            <div id='pauseStatsDIV'></div>
+        </div>
     </body>
 
 

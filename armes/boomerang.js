@@ -10,6 +10,7 @@ window.onload = () => {
     window.cooldown = false
     window.cooldownTime = 750
     window.radius = 40
+    window.taille = 1
     window.damageDEAL = 0.25
     let tirITERATION = 1
     let tirIterationCount = []
@@ -79,10 +80,10 @@ window.onload = () => {
         tir = document.createElement('div')
         img = document.createElement('img')
         img.setAttribute('src', '../img/boomerang.png')
-        img.style.height = '5vh'
+        img.style.height = (5 * taille) + 'vh'
         img.classList.add('boomerang')
         tir.appendChild(img)
-        tir.style.height = '5vh'
+        tir.style.height = (5 * taille) + 'vh'
         tirDiv.appendChild(tir)
         tir.classList.add('tir')
 

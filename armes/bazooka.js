@@ -11,6 +11,7 @@ window.onload = () => {
     window.cooldown = false
     window.cooldownTime = 1500
     window.radius = 50
+    window.taille = 1
     window.damageDEAL = 1
     let tirITERATION = 1
     let tirIterationCount = []
