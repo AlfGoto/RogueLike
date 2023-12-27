@@ -10,6 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'sword':
             loadJS("../armes/sword.js");
             break;
+        case 'boomerang':
+            loadJS("../armes/boomerang.js");
+            break;
     }
 
 

@@ -1,5 +1,5 @@
 window.onload = () => {
-    console.log('sword connected')
+    console.log('boomerang connected')
 
 
 
@@ -8,9 +8,9 @@ window.onload = () => {
     let tirCount = 0
     window.persoCSS = window.getComputedStyle(perso)
     window.cooldown = false
-    window.cooldownTime = 650
-    window.radius = 20
-    window.damageDEAL = 1
+    window.cooldownTime = 750
+    window.radius = 40
+    window.damageDEAL = 0.25
     let tirITERATION = 1
     let tirIterationCount = []
     let autoclickON = false;
@@ -69,7 +69,6 @@ window.onload = () => {
             tirFunction(tirCount, posY, posX)
         }
 
-
         setTimeout(autoclickFunction, cooldownTime + 1)
     }
     function tirFunction(id, mY, mX) {
@@ -79,12 +78,11 @@ window.onload = () => {
         //crée le missile
         tir = document.createElement('div')
         img = document.createElement('img')
-        img.setAttribute('src', '../img/sword.png')
-        img.style.height = '1.5vh'
+        img.setAttribute('src', '../img/boomerang.png')
+        img.style.height = '5vh'
+        img.classList.add('boomerang')
         tir.appendChild(img)
-        // tir = document.createElement('img')
-        // tir.setAttribute('src', '../img/sword.png');
-        tir.style.height = '2vh'
+        tir.style.height = '5vh'
         tirDiv.appendChild(tir)
         tir.classList.add('tir')
 
@@ -102,15 +100,16 @@ window.onload = () => {
         ratioX = (lineX / hypothenuse).toFixed(2)
 
 
-        tirMouvment(tir, ratioY, ratioX)
+        tirMouvment(tir, ratioY, ratioX, Number(persoCSS['top'].replace('px', '')), Number(persoCSS['left'].replace('px', '')))
 
         if (tirIterationCount[id] != tirITERATION) {
             setTimeout(() => {
                 tirFunction(id, mY, mX)
             }, 100)
         } else { tirIterationCount.splice(id, 1) }
+
     }
-    function tirMouvment(obj, dirY, dirX) {
+    function tirMouvment(obj, dirY, dirX, carY, carX) {
         // console.log(obj)
         setTimeout(() => {
             obj.style.top = (Number(obj.style.top.replace('px', '')) + 25 * dirY) + 'px'
@@ -121,16 +120,37 @@ window.onload = () => {
                 if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < radius &&
                     Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < radius) {
                     e.destroy()
-                    obj.remove()
                 }
             });
 
-            if (PXtoVH(Number(obj.style.top.replace('px', ''))) < 5 || PXtoVH(Number(obj.style.top.replace('px', ''))) > 95 ||
-                PXtoVH(Number(obj.style.left.replace('px', ''))) < 5 || PXtoVH(Number(obj.style.left.replace('px', ''))) > 95) {
-                obj.remove()
-            } else { tirMouvment(obj, dirY, dirX) }
+            // if (PXtoVH(Number(obj.style.top.replace('px', ''))) < carY + 300 || PXtoVH(Number(obj.style.top.replace('px', ''))) > carY + 300 ||
+            //     PXtoVH(Number(obj.style.left.replace('px', ''))) < carX + 300 || PXtoVH(Number(obj.style.left.replace('px', ''))) > carX + 300) {
+            if (Math.abs(carY - Number(obj.style.top.replace('px', ''))) > 200 || Math.abs(carX - Number(obj.style.left.replace('px', ''))) > 200) {
+                tirMouvmentREVERSE(obj, dirY, dirX, carY, carX)
+                return;
+            } else { tirMouvment(obj, dirY, dirX, carY, carX) }
 
-        }, 10)
+        }, 15)
+    }
+    function tirMouvmentREVERSE(obj, dirY, dirX, carY, carX) {
+        // console.log(obj)
+        setTimeout(() => {
+            obj.style.top = (Number(obj.style.top.replace('px', '')) - 25 * dirY) + 'px'
+            obj.style.left = (Number(obj.style.left.replace('px', '')) - 25 * dirX) + 'px'
+
+            //detect if it HIT
+            roomMECHANTS.forEach(e => {
+                if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < radius &&
+                    Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < radius) {
+                    e.destroy()
+                }
+            });
+
+            if (Math.abs(Number(obj.style.top.replace('px', '')) - carY) < 30 && Math.abs(Number(obj.style.left.replace('px', '')) - carX) < 30) {
+                obj.remove()
+            } else { tirMouvmentREVERSE(obj, dirY, dirX, carY, carX) }
+
+        }, 15)
     }
 
 
