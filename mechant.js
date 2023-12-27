@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     class gnome {
         constructor(life = 5, speed = 20, skin = "../img/gnome.png") {
             this.life = life
-            this.speed = speed
+            this.speed = speed/2
             this.skin = skin
 
 
@@ -77,6 +77,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 })
                 this.elem.remove()
             } else {
+                this.elem.classList.add('hit')
+                setTimeout(()=>{
+                    this.elem.classList.remove('hit')
+                }, 250)
                 this.life -= damageDEAL
                 // this.elem.innerHTML = this.life
             }

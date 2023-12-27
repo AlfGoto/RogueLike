@@ -10,7 +10,7 @@ window.onload = () => {
     window.persoCSS = window.getComputedStyle(perso)
     window.cooldown = false
     window.cooldownTime = 1500
-    window.explodeRadius = 50
+    window.radius = 50
     window.damageDEAL = 1
     let tirITERATION = 1
     let tirIterationCount = []
@@ -110,8 +110,8 @@ window.onload = () => {
 
         //detect if it HIT
         roomMECHANTS.forEach(e => {
-            if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < explodeRadius &&
-                Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < explodeRadius) {
+            if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < radius &&
+                Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < radius) {
                 e.destroy()
             }
         });

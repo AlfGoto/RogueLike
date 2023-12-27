@@ -29,32 +29,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    let ok = new funcCLASS()
-    ok.call('fonctions globales fonctionnelles')
-    // class persoCLASS {
-    //     hit() {
-    //         if (invulnerabilityPeriod) { return }
-    //         invulnerabilityPeriod = true
-    //         setTimeout(() => {
-    //             invulnerabilityPeriod = false
-    //         }, 1000)
-    //         persoLife--
-    //         if (persoLife <= 0) {
-    //             gameON = false
-    //             persoDEAD = true
-    //             perso.remove()
-    //             console.log('perso dead')
-    //         } else if (persoLife == 1) {
-    //             window.persoO.classList.add('hidden')
-    //         } else if (persoLife == 2) {
-    //             window.persoI.classList.add('hidden')
-    //         }
-    //     }
-    // }
-    // window.persoCLASS = persoCLASS
-
-
-
 
 
     //initialisation de la premiere salle
@@ -121,6 +95,24 @@ document.addEventListener('DOMContentLoaded', () => {
     let dBOOL = false;
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     window.addEventListener('keydown', function (e) {
         // console.log(`DOWN ${e.key}`)
         if (e.key == 'z') {
@@ -165,9 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
             qBOOL = false
         }
     });
-
-
-
 
     //PORTES
     let pPOSminX = 40
@@ -264,6 +253,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }, 7)
     }
+
+
+
+
 
 
 

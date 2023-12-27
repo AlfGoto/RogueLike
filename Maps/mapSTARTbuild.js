@@ -1,24 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     window.gamePAUSE = false
 
-    class funcCLASS {
-        call(arg) {
-            console.log('func.call = ' + arg)
-        }
-    }
-
-    window.funcCLASS = funcCLASS
-
-
-
-
-
-
-
-
-
-
-
 
 
 

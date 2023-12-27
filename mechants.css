@@ -8,3 +8,14 @@
     left: -50%;
     margin-top: -50%;
 }
+.enemy.hit{
+    animation: shake 0.2s linear
+}
+
+@keyframes shake{
+    0%{transform: skew(0deg, 0deg);}
+    25%{transform: skew(-15deg, -15deg);}
+    50%{transform: skew(0deg, 0deg);}
+    75%{transform: skew(15deg, 15deg);}
+    100%{transform: skew(0deg, 0deg);}
+}
