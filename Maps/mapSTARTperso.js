@@ -341,9 +341,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return
         }
         if (gamePAUSE) { return }
-        if (gameON == false) {
-            gameON = true
-        }
+        // if (gameON == false) {
+        //     gameON = true
+        // }
         // console.log(`DOWN ${e.key}`)
         if (e.key == 'z') {
             if (zBOOL == false) {

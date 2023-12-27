@@ -216,12 +216,14 @@
     width: 70vh;
     z-index: 40;
 }
-
+#pauseDIV h1{
+    font-size: 5vh;
+}
 #pressescape {
     position: relative;
-    bottom: 3%;
+    top: -3vh;
     font-style: italic;
-    font-size: 2vh;
+    font-size: 1.8vh;
     color: rgb(105, 103, 103);
 }
 
