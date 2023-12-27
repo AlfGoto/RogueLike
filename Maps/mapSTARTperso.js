@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // console.log(nbMECHANTS)
         for (let i = 0; i < nbMECHANTS; i++) {
             let rand = Math.floor(Math.random() * 2);
-            console.log('rand = ' + rand)
+            // console.log('rand = ' + rand)
             if (rand == 0) { roomMECHANTS.push(new gnome); }
             if (rand == 1) { roomMECHANTS.push(new goblin); }
         }
@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    
+
     window.addEventListener('keydown', function (e) {
         // console.log(`DOWN ${e.key}`)
         if (e.key == 'z') {

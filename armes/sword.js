@@ -118,15 +118,15 @@ window.onload = () => {
 
             //detect if it HIT
             roomMECHANTS.forEach(e => {
-                if (Math.abs(Number(window.getComputedStyle(obj)['top'].replace('px', '')) - Number(e.posY)) < radius &&
-                    Math.abs(Number(window.getComputedStyle(obj)['left'].replace('px', '')) - Number(e.posX)) < radius) {
+                if (Math.abs(PXtoVH(Number(window.getComputedStyle(obj)['top'].replace('px', ''))) - Number(e.posY)) < PXtoVH(radius) &&
+                    Math.abs(PXtoVH(Number(window.getComputedStyle(obj)['left'].replace('px', ''))) - Number(e.posX)) < PXtoVH(radius)) {
                     e.destroy()
                     obj.remove()
                 }
             });
 
-            if (PXtoVH(Number(obj.style.top.replace('px', ''))) < 5 || PXtoVH(Number(obj.style.top.replace('px', ''))) > 95 ||
-                PXtoVH(Number(obj.style.left.replace('px', ''))) < 5 || PXtoVH(Number(obj.style.left.replace('px', ''))) > 95) {
+            if (PXtoVH(Number(obj.style.top.replace('px', ''))) < 0 || PXtoVH(Number(obj.style.top.replace('px', ''))) > 95 ||
+                PXtoVH(Number(obj.style.left.replace('px', ''))) < 0 || PXtoVH(Number(obj.style.left.replace('px', ''))) > 95) {
                 obj.remove()
             } else { tirMouvment(obj, dirY, dirX) }
 

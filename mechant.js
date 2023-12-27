@@ -4,45 +4,46 @@ document.addEventListener('DOMContentLoaded', () => {
     let enemyDIV = document.getElementById('DIVenemy')
 
     class gnome {
-        constructor(life = 5, speed = 20, skin = "../img/gnome.png") {
+        constructor(life = 5, speed = 0.25, skin = "../img/gnome.png") {
             this.life = life
-            this.speed = speed/2
+            this.speed = speed
             this.skin = skin
-
 
 
             this.create()
             this.moveToPerso()
+
+            console.log(this.constructor.name + ' = ' + this.speed)
         }
         moveToPerso() {
             if (gamePAUSE) {
                 setTimeout(() => {
                     this.moveToPerso()
-                }, 500)
+                }, this.speed)
                 return
             }
             if (persoDEAD) { return }
-            this.posX = Number(window.getComputedStyle(this.elem)['left'].replace('px', ''))
-            this.posY = Number(window.getComputedStyle(this.elem)['top'].replace('px', ''))
+            this.posX = PXtoVH(Number(window.getComputedStyle(this.elem)['left'].replace('px', '')))
+            this.posY = PXtoVH(Number(window.getComputedStyle(this.elem)['top'].replace('px', '')))
 
-            if (this.posX < Number(persoCSS['left'].replace('px', ''))) {
-                this.elem.style.left = (this.posX + 1) + 'px'
-            } else if (this.posX > Number(persoCSS['left'].replace('px', ''))) {
-                this.elem.style.left = (this.posX - 1) + 'px'
+            if (this.posX + 5 < PXtoVH(Number(persoCSS['left'].replace('px', '')))) {
+                this.elem.style.left = (this.posX + this.speed) + 'vh'
+            } else if (this.posX + 4 > PXtoVH(Number(persoCSS['left'].replace('px', '')))) {
+                this.elem.style.left = (this.posX - this.speed) + 'vh'
             }
 
-            if (this.posY < Number(persoCSS['top'].replace('px', ''))) {
-                this.elem.style.top = (this.posY + 1) + 'px'
-            } else if (this.posY > Number(persoCSS['top'].replace('px', ''))) {
-                this.elem.style.top = (this.posY - 1) + 'px'
+            if (this.posY + 5 < PXtoVH(Number(persoCSS['top'].replace('px', '')))) {
+                this.elem.style.top = (this.posY + this.speed) + 'vh'
+            } else if (this.posY + 4 > PXtoVH(Number(persoCSS['top'].replace('px', '')))) {
+                this.elem.style.top = (this.posY - this.speed) + 'vh'
             }
 
-            if (Math.abs(this.posX - Number(persoCSS['left'].replace('px', ''))) < 20 && Math.abs(this.posY - Number(persoCSS['top'].replace('px', ''))) < 20) {
+            if (Math.abs(this.posX - PXtoVH(Number(persoCSS['left'].replace('px', '')))) < 1 && Math.abs(this.posY - PXtoVH(Number(persoCSS['top'].replace('px', '')))) < 1) {
                 persoHIT()
             }
             setTimeout(() => {
                 this.moveToPerso()
-            }, this.speed)
+            }, 20)
         }
         create() {
             this.elem = document.createElement('div')
@@ -90,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     class goblin extends gnome {
         constructor() {
-            super(3, 10, "../img/goblin.png")
+            super(3, 0.5, "../img/goblin.png")
         }
     }
 
