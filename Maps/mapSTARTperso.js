@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //faire spawn les mobs
         roomMECHANTS = []
-        if (!roomsinfo[room]['found'] && !roomsinfo[room]['treasure']) {
+        if (!roomsinfo[room]['found'] && !roomsinfo[room]['treasure']&& !roomsinfo[room]['boss']) {
             roomsinfo[room]['found'] = true
             spawnMECHANTSlvl1()
         }
@@ -79,6 +79,7 @@ document.addEventListener('DOMContentLoaded', () => {
         square.classList.remove('hidden')
         square.classList.add('ROOMfound')
         if (roomsinfo[room]['treasure']) { square.classList.add('treasureFOUND') }
+        if (roomsinfo[room]['boss']) { square.classList.add('bossFOUND') }
         if (roomsinfo[room]['top']) { grid.querySelector("[id='" + (room - 9) + "']").classList.remove('hidden') }
         if (roomsinfo[room]['bot']) { grid.querySelector("[id='" + (room + 9) + "']").classList.remove('hidden') }
         if (roomsinfo[room]['left']) { grid.querySelector("[id='" + (room - 1) + "']").classList.remove('hidden') }
@@ -87,6 +88,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (room + 9 in roomsinfo) { if (roomsinfo[room + 9]['treasure']) { grid.querySelector("[id='" + (room + 9) + "']").classList.add('treasureNOTFOUND'); chestOnMinimap() } }
         if (room - 1 in roomsinfo) { if (roomsinfo[room - 1]['treasure']) { grid.querySelector("[id='" + (room - 1) + "']").classList.add('treasureNOTFOUND'); chestOnMinimap() } }
         if (room + 1 in roomsinfo) { if (roomsinfo[room + 1]['treasure']) { grid.querySelector("[id='" + (room + 1) + "']").classList.add('treasureNOTFOUND'); chestOnMinimap() } }
+        if (room - 9 in roomsinfo) { if (roomsinfo[room - 9]['boss']) { grid.querySelector("[id='" + (room - 9) + "']").classList.add('bossNOTFOUND'); bossOnMinimap() } }
+        if (room + 9 in roomsinfo) { if (roomsinfo[room + 9]['boss']) { grid.querySelector("[id='" + (room + 9) + "']").classList.add('bossNOTFOUND'); bossOnMinimap() } }
+        if (room - 1 in roomsinfo) { if (roomsinfo[room - 1]['boss']) { grid.querySelector("[id='" + (room - 1) + "']").classList.add('bossNOTFOUND'); bossOnMinimap() } }
+        if (room + 1 in roomsinfo) { if (roomsinfo[room + 1]['boss']) { grid.querySelector("[id='" + (room + 1) + "']").classList.add('bossNOTFOUND'); bossOnMinimap() } }
 
 
 
@@ -115,6 +120,13 @@ document.addEventListener('DOMContentLoaded', () => {
         img.setAttribute('src', '../img/chest.png')
         img.style.height = 2 + 'vh'
         chestroom.appendChild(img)
+    }
+    function bossOnMinimap() {
+        let bossroom = grid.querySelector(".bossNOTFOUND")
+        let img = document.createElement('img')
+        img.setAttribute('src', '../img/boss.png')
+        img.style.height = 2 + 'vh'
+        bossroom.appendChild(img)
     }
     // console.log(roomsinfo)
     buildROOM(persoROOM)

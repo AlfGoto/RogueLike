@@ -127,6 +127,12 @@
 .treasureFOUND{
     background-color: gold;
 }
+.bossNOTFOUND{
+    background-color: rgba(255, 0, 0, 0.399) !important;
+}
+.bossFOUND{
+    background-color: rgb(255, 0, 0);
+}
 .ROOMfirst {
     background-color: rgb(244, 213, 156) !important;
 }

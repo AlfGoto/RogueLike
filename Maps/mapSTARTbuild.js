@@ -76,12 +76,9 @@ document.addEventListener('DOMContentLoaded', () => {
     window.roomsinfo = []
     rooms.forEach(element => {
         temp = []
-        if (rooms.includes(element - 9)) { temp['top'] = true } else { temp['top'] = false }
-        if (rooms.includes(element + 9)) { temp['bot'] = true } else { temp['bot'] = false }
-        if (rooms.includes(element - 1)) { temp['left'] = true } else { temp['left'] = false }
-        if (rooms.includes(element + 1)) { temp['right'] = true } else { temp['right'] = false }
         if (element == 40) { temp['found'] = true } else { temp['found'] = false }
         temp['treasure'] = false
+        temp['boss'] = false
 
         roomsinfo[element] = temp
         // console.log(element)
@@ -98,18 +95,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     shuffleArray(roomsleft)
-    // console.log(roomsleft)
+    //treasure room
     for (let i = 0; i < 81; i++) {
         if (i in roomsleft) {
             // console.log('roomsleft include ok')
             e = roomsleft[i]
             if (e > 8 && e < 72 && e % 9 != 0 && e % 9 != 8) {
                 if (roomsinfo.hasOwnProperty(e - 9) || roomsinfo.hasOwnProperty(e + 9) || roomsinfo.hasOwnProperty(e - 1) || roomsinfo.hasOwnProperty(e + 1)) {
-                    console.log(e)
                     temp = []
                     temp['treasure'] = true
+                    temp['boss'] = false
                     temp['found'] = false
                     roomsinfo[e] = temp
+
+                    roomsleft.splice(roomsleft.indexOf(e), 1)
+                    break
+                }
+            }
+        }
+    }
+
+    //boss room
+    for (let i = 0; i < 81; i++) {
+        if (i in roomsleft) {
+            // console.log('roomsleft include ok')
+            e = roomsleft[i]
+            if (e > 8 && e < 72 && e % 9 != 0 && e % 9 != 8) {
+                if (roomsinfo.hasOwnProperty(e - 9) || roomsinfo.hasOwnProperty(e + 9) || roomsinfo.hasOwnProperty(e - 1) || roomsinfo.hasOwnProperty(e + 1)) {
+                    temp = []
+                    temp['boss'] = true
+                    temp['found'] = false
+                    roomsinfo[e] = temp
+
+                    roomsleft.splice(roomsleft.indexOf(e), 1)
                     break
                 }
             }
