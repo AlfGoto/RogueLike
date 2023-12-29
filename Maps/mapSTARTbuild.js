@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < 81; i++) {
         roomsleft.push(i)
     }
+    // console.log(roomsleft)
 
 
     //commencer par la room 55. Prendre une des rooms a coté au pif pour la suivante. Puis prendre une des rooms a coté d'une des rooms déja générée qui n'est pas deja générée
@@ -22,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // console.log('nombre de rooms = ' + nbROOMS)
     for (let i = 0; i < nbROOMS; i++) {
         if (i == 0) {
-            room = 44
+            room = 40
             temp = []
             temp['id'] = room
             rooms.push(room)
@@ -79,12 +80,59 @@ document.addEventListener('DOMContentLoaded', () => {
         if (rooms.includes(element + 9)) { temp['bot'] = true } else { temp['bot'] = false }
         if (rooms.includes(element - 1)) { temp['left'] = true } else { temp['left'] = false }
         if (rooms.includes(element + 1)) { temp['right'] = true } else { temp['right'] = false }
-        if (element == 44) { temp['found'] = true } else { temp['found'] = false }
+        if (element == 40) { temp['found'] = true } else { temp['found'] = false }
+        temp['treasure'] = false
 
         roomsinfo[element] = temp
         // console.log(element)
     });
     // console.log(roomsinfo)
+
+    function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var temp = array[i];
+            array[i] = array[j];
+            array[j] = temp;
+        }
+    }
+
+    shuffleArray(roomsleft)
+    // console.log(roomsleft)
+    for (let i = 0; i < 81; i++) {
+        if (i in roomsleft) {
+            // console.log('roomsleft include ok')
+            e = roomsleft[i]
+            if (e > 8 && e < 72 && e % 9 != 0 && e % 9 != 8) {
+                if (roomsinfo.hasOwnProperty(e - 9) || roomsinfo.hasOwnProperty(e + 9) || roomsinfo.hasOwnProperty(e - 1) || roomsinfo.hasOwnProperty(e + 1)) {
+                    console.log(e)
+                    temp = []
+                    temp['treasure'] = true
+                    temp['found'] = false
+                    roomsinfo[e] = temp
+                    break
+                }
+            }
+        }
+    }
+
+
+
+    //les portes
+    roomsinfo.forEach(element => {
+        if ((roomsinfo.indexOf(element) - 9) in roomsinfo) { element['top'] = true } else { element['top'] = false }
+        if ((roomsinfo.indexOf(element) + 9) in roomsinfo) { element['bot'] = true } else { element['bot'] = false }
+        if ((roomsinfo.indexOf(element) - 1) in roomsinfo) { element['left'] = true } else { element['left'] = false }
+        if ((roomsinfo.indexOf(element) + 1) in roomsinfo) { element['right'] = true } else { element['right'] = false }
+    })
+
+
+    console.log(roomsinfo)
+
+
+
+
+
 
 
 
@@ -98,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
         grid.appendChild(square);
         square.id = i;
         square.classList.add('hidden')
-        if (i == 44) {
+        if (i == 40) {
             square.classList.add('ROOMfirst')
         }
     }

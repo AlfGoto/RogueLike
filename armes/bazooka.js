@@ -13,7 +13,7 @@ window.onload = () => {
     window.radius = 50
     window.taille = 1
     window.damageDEAL = 1
-    let tirITERATION = 1
+    window.tirITERATION = 1
     let tirIterationCount = []
     let currentLetter = -1
     let alph = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']

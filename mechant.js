@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // console.log(this.constructor.name + ' = ' + this.speed)
         }
         moveToPerso() {
-            if (window.gamePAUSE) {
+            if (gamePAUSE) {
                 setTimeout(() => {
                     this.moveToPerso()
                 }, this.speed)
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         spawn() {
             let x = Math.floor(Math.random() * (96 - 7 + 1) + 7)
             let y = Math.floor(Math.random() * (94 - 5 + 1) + 5)
-            if (Math.abs(Number(persoCSS['top'].replace('px', '')) - y) > 200 || Math.abs(Number(persoCSS['left'].replace('px', '')) - x) > 200) {
+            if (Math.abs(PXtoVH(Number(persoCSS['top'].replace('px', ''))) - y) > 40 || Math.abs(PXtoVH(Number(persoCSS['left'].replace('px', ''))) - x) > 40) {
                 this.elem.style.top = y + 'vh'
                 this.elem.style.left = x + 'vh'
             } else {
@@ -126,8 +126,8 @@ document.addEventListener('DOMContentLoaded', () => {
             persoI.classList.add('hidden')
         }
     }
+    let xp = new xpCLASS()
     function PXtoVH(nb) {
         return (nb / innerHeight) * 100
     }
-    let xp = new xpCLASS
 })

@@ -12,7 +12,7 @@ window.onload = () => {
     window.radius = 40
     window.taille = 1
     window.damageDEAL = 0.25
-    let tirITERATION = 1
+    window.tirITERATION = 1
     let tirIterationCount = []
     let autoclickON = false;
 

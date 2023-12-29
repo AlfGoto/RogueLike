@@ -20,12 +20,13 @@ document.addEventListener('DOMContentLoaded', () => {
     window.persoCSS = window.getComputedStyle(perso)
     perso.style.left = '50 vh'
     perso.style.top = '50 vh'
-    let persoROOM = 44
+    let persoROOM = 40
     let grid = document.getElementById('grid')
     window.persoDEAD = false
     window.autoclickON = false
     let persoLife = 3
     window.persoLife = persoLife
+    window.mooveSpeed = 0.5
 
 
     //POWER UP 
@@ -41,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lvlP = document.getElementById('lvl')
     window.xpCount = 0
     window.lvl = 1
-    window.xpNeeded = 10
+    window.xpNeeded = 5
     window.xpPROGRESS = document.getElementById('xpPROGRESS')
 
     //Pause
@@ -66,13 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //faire spawn les mobs
         roomMECHANTS = []
-        if (!roomsinfo[room]['found']) {
+        if (!roomsinfo[room]['found'] && !roomsinfo[room]['treasure']) {
             roomsinfo[room]['found'] = true
-
             spawnMECHANTSlvl1()
         }
-
-
 
 
 
@@ -80,10 +78,17 @@ document.addEventListener('DOMContentLoaded', () => {
         let square = grid.querySelector("[id='" + room + "']")
         square.classList.remove('hidden')
         square.classList.add('ROOMfound')
+        if (roomsinfo[room]['treasure']) { square.classList.add('treasureFOUND') }
         if (roomsinfo[room]['top']) { grid.querySelector("[id='" + (room - 9) + "']").classList.remove('hidden') }
         if (roomsinfo[room]['bot']) { grid.querySelector("[id='" + (room + 9) + "']").classList.remove('hidden') }
         if (roomsinfo[room]['left']) { grid.querySelector("[id='" + (room - 1) + "']").classList.remove('hidden') }
         if (roomsinfo[room]['right']) { grid.querySelector("[id='" + (room + 1) + "']").classList.remove('hidden') }
+        if (room - 9 in roomsinfo) { if (roomsinfo[room - 9]['treasure']) { grid.querySelector("[id='" + (room - 9) + "']").classList.add('treasureNOTFOUND'); chestOnMinimap() } }
+        if (room + 9 in roomsinfo) { if (roomsinfo[room + 9]['treasure']) { grid.querySelector("[id='" + (room + 9) + "']").classList.add('treasureNOTFOUND'); chestOnMinimap() } }
+        if (room - 1 in roomsinfo) { if (roomsinfo[room - 1]['treasure']) { grid.querySelector("[id='" + (room - 1) + "']").classList.add('treasureNOTFOUND'); chestOnMinimap() } }
+        if (room + 1 in roomsinfo) { if (roomsinfo[room + 1]['treasure']) { grid.querySelector("[id='" + (room + 1) + "']").classList.add('treasureNOTFOUND'); chestOnMinimap() } }
+
+
 
         let temp = document.querySelectorAll('.ROOMin')
         temp.forEach((e) => {
@@ -104,6 +109,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    function chestOnMinimap() {
+        let chestroom = grid.querySelector(".treasureNOTFOUND")
+        let img = document.createElement('img')
+        img.setAttribute('src', '../img/chest.png')
+        img.style.height = 2 + 'vh'
+        chestroom.appendChild(img)
+    }
     // console.log(roomsinfo)
     buildROOM(persoROOM)
 
@@ -228,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (powerupMenuPAUSE) { return }
 
         betterFASTERstronger.lvl++
-        mooveSpeed++
+        mooveSpeed = mooveSpeed * 1.50
 
         closepowerupMenu()
     }))
@@ -278,7 +290,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function pausestatsmenuBUILD() {
         pauseStatsDIV.innerHTML = ''
         powerupArray.forEach(function (e) {
-            console.log(e)
+            // console.log(e)
             if (e.lvl != 0) {
                 pauseStatsDIV.innerHTML += "<div id='" + e.nameP.innerHTML + "'></div>"
                 let s = document.getElementById(e.nameP.innerHTML)
@@ -403,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
             left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
-            top -= 0.5
+            top -= mooveSpeed
             if (top < ptopPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['top']) {
@@ -424,7 +436,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
             left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
-            top += 0.5
+            top += mooveSpeed
             if (top > pbotPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['bot']) {
@@ -445,7 +457,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
-            left += 0.5
+            left += mooveSpeed
             if (left > prightPOSX) {
                 if (top < pxPOSminY || top > pxPOSmaxY || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['right']) {
@@ -466,7 +478,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
-            left -= 0.5
+            left -= mooveSpeed
             if (left < pleftPOSX) {
                 if (top < pxPOSminY || top > pxPOSmaxY || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['left']) {
