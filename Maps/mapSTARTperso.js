@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.mooveSpeed = 0.5
 
 
+
     //POWER UP 
     let powerupDIV = document.getElementById('powerupDIV')
     let powerupArray = []
@@ -161,16 +162,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
     class xpCLASS {
         add() {
             xpCount++
@@ -261,42 +252,42 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    powerupArray.push(MOREBULLETs = new powerup('I Need More Bullets', 'Get one more shot everytime you shoot', () => {
-        if (powerupMenuPAUSE) { return }
+    // powerupArray.push(MOREBULLETs = new powerup('I Need More Bullets', 'Get one more shot everytime you shoot', () => {
+    //     if (powerupMenuPAUSE) { return }
 
-        MOREBULLETs.lvl++
-        window.tirITERATION++
+    //     MOREBULLETs.lvl++
+    //     window.tirITERATION++
 
-        closepowerupMenu()
-    }))
+    //     closepowerupMenu()
+    // }))
 
-    powerupArray.push(QuickReading = new powerup('Quick Reading', 'Shoot faster by 15%', () => {
-        if (powerupMenuPAUSE) { return }
+    // powerupArray.push(QuickReading = new powerup('Quick Reading', 'Shoot faster by 15%', () => {
+    //     if (powerupMenuPAUSE) { return }
 
-        QuickReading.lvl++
-        window.cooldownTime -= window.cooldownTime * 0.15
+    //     QuickReading.lvl++
+    //     window.cooldownTime -= window.cooldownTime * 0.15
 
-        closepowerupMenu()
-    }))
+    //     closepowerupMenu()
+    // }))
 
-    powerupArray.push(betterFASTERstronger = new powerup('betterFASTERstronger', 'Move faster !', () => {
-        if (powerupMenuPAUSE) { return }
+    // powerupArray.push(betterFASTERstronger = new powerup('betterFASTERstronger', 'Move faster !', () => {
+    //     if (powerupMenuPAUSE) { return }
 
-        betterFASTERstronger.lvl++
-        mooveSpeed = mooveSpeed * 1.50
+    //     betterFASTERstronger.lvl++
+    //     mooveSpeed = mooveSpeed * 1.50
 
-        closepowerupMenu()
-    }))
+    //     closepowerupMenu()
+    // }))
 
-    powerupArray.push(HealingSorcery = new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
-        if (powerupMenuPAUSE) { return }
+    // powerupArray.push(HealingSorcery = new powerup('Healing Sorcery', "Doctissimo ou l'excellent 'appliquer un bandage pour les nuls' de Joseph Mourigno. Bref +1pv", () => {
+    //     if (powerupMenuPAUSE) { return }
 
-        HealingSorcery.lvl++
-        persoLife++
-        if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
+    //     HealingSorcery.lvl++
+    //     persoLife++
+    //     if (persoLife == 2) { persoO.classList.remove('hidden') } else if (persoLife == 3) { persoI.classList.remove('hidden') }
 
-        closepowerupMenu()
-    }))
+    //     closepowerupMenu()
+    // }))
 
     powerupArray.push(BiggerExplosions = new powerup('BIGGER', "Bigger explosions, BIGGER BIGGER BIGGER (augment radius by the first value it had at the start)", () => {
         if (powerupMenuPAUSE) { return }
@@ -327,6 +318,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
         closepowerupMenu()
     }))
+
+    if(persoARME != 'bazooka' && window.persoARME != 'boomerang'){
+        powerupArray.push(Piercing = new powerup('Cool kids have piercings', 'I made this augment to help you go through this pain. +1 piercing', () => {
+            if (powerupMenuPAUSE) { return }
+    
+            Piercing.lvl++
+            piercing++
+    
+            closepowerupMenu()
+        }))
+    }
 
 
 

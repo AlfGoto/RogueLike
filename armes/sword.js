@@ -13,6 +13,7 @@ window.onload = () => {
     window.taille = 1
     window.damageDEAL = 1
     window.tirITERATION = 1
+    window.piercing = 0
     let tirIterationCount = []
     let autoclickON = false;
 
@@ -79,6 +80,7 @@ window.onload = () => {
 
         //crée le missile
         tir = document.createElement('div')
+        tir.piercing = piercing
         img = document.createElement('img')
         img.setAttribute('src', '../img/sword.png')
         img.style.height = (1.5 * taille) + 'vh'
@@ -121,8 +123,8 @@ window.onload = () => {
             roomMECHANTS.forEach(e => {
                 if (Math.abs(PXtoVH(Number(window.getComputedStyle(obj)['top'].replace('px', ''))) - Number(e.posY)) < PXtoVH(radius) &&
                     Math.abs(PXtoVH(Number(window.getComputedStyle(obj)['left'].replace('px', ''))) - Number(e.posX)) < PXtoVH(radius)) {
+                    if (tir.piercing > 0) { tir.piercing-- } else { obj.remove() }
                     e.destroy()
-                    obj.remove()
                 }
             });
 
