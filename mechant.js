@@ -2,6 +2,10 @@ document.addEventListener('DOMContentLoaded', () => {
     console.log('mechant loaded')
 
     let enemyDIV = document.getElementById('DIVenemy')
+    let enemytirDIV = document.getElementById('enemytirDIV')
+
+
+
 
     class gnome {
         constructor(life = 5, speed = 0.25, skin = "../img/gnome.png") {
@@ -53,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
             img.setAttribute('src', this.skin)
             img.setAttribute('alt', this.constructor.name)
             img.style.height = '6vh'
+            img.style.position = 'relative'
+            img.style.marginTop = '-50%'
+            img.style.left = '-50%'
             img.classList.add(this.constructor.name)
             this.elem.appendChild(img)
             this.elem.style.overflow = 'visible'
@@ -60,11 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
             this.spawn()
         }
         spawn() {
-            let x = Math.floor(Math.random() * (96 - 7 + 1) + 7)
-            let y = Math.floor(Math.random() * (94 - 5 + 1) + 5)
-            if (Math.abs(PXtoVH(Number(persoCSS['top'].replace('px', ''))) - y) > 40 || Math.abs(PXtoVH(Number(persoCSS['left'].replace('px', ''))) - x) > 40) {
-                this.elem.style.top = y + 'vh'
-                this.elem.style.left = x + 'vh'
+            this.posX = Math.floor(Math.random() * (96 - 7 + 1) + 7)
+            this.posY = Math.floor(Math.random() * (94 - 5 + 1) + 5)
+            if (Math.abs(PXtoVH(Number(persoCSS['top'].replace('px', ''))) - this.posY) > 40 || Math.abs(PXtoVH(Number(persoCSS['left'].replace('px', ''))) - this.posX) > 40) {
+                this.elem.style.top = this.posY + 'vh'
+                this.elem.style.left = this.posX + 'vh'
             } else {
                 this.spawn()
             }
@@ -79,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.elem.remove()
             } else {
                 this.elem.classList.add('hit')
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.elem.classList.remove('hit')
                 }, 250)
                 this.life -= damageDEAL
@@ -96,18 +103,81 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-
-
-    class turrets{
-        constructor(life = 5, skin = "../img/gnome.png") {
+    class turret {
+        constructor(life = 3, bullets = 1, skin = "../img/turret.png") {
             this.life = life
-            this.speed = speed
             this.skin = skin
+            this.bullets = bullets
+            this.bulletsConstant = true
 
 
             this.create()
             // console.log(this.constructor.name + ' = ' + this.speed)
+            this.bulletFunction(this.bullets)
+            this.bulletAuto()
         }
+        bulletAuto() {
+            setTimeout(() => {
+                if (!this.bulletsConstant) { return }
+                this.bulletFunction(this.bullets)
+                this.bulletAuto()
+            }, 2000)
+        }
+        bulletFunction(nbtirs) {
+            nbtirs--
+            if (persoDEAD) { return }
+
+            //crée le missile
+            let bullet = document.createElement('div')
+            bullet.style.position = 'absolute'
+            bullet.style.height = '2vh'
+            bullet.style.width = '2vh'
+            bullet.style.backgroundColor = 'red'
+            bullet.style.borderRadius = '50%'
+            bullet.style.zIndex = '35'
+            enemytirDIV.appendChild(bullet)
+
+            //le place et l'envoie
+            bullet.style.left = this.posX + 'vh'
+            bullet.style.top = this.posY + 'vh'
+
+            let lineY = PXtoVH(Number(persoCSS['top'].replace('px', ''))) - this.posY
+            let lineX = PXtoVH(Number(persoCSS['left'].replace('px', ''))) - this.posX
+            let hypothenuse = Math.sqrt((lineX * lineX) + (lineY * lineY))
+            let ratioY = (lineY / hypothenuse).toFixed(2)
+            let ratioX = (lineX / hypothenuse).toFixed(2)
+
+
+            this.bulletMouvment(bullet, ratioY, ratioX)
+
+            if (nbtirs > 0) {
+                setTimeout(() => {
+                    this.bulletFunction(nbtirs)
+                }, 100)
+            }
+        }
+        bulletMouvment(obj, dirY, dirX) {
+            // console.log(obj)
+            setTimeout(() => {
+                obj.style.top = (Number(obj.style.top.replace('vh', '')) + 1 * dirY) + 'vh'
+                obj.style.left = (Number(obj.style.left.replace('vh', '')) + 1 * dirX) + 'vh'
+
+                // console.log('bulletX = ' + this.posX)
+                if (Math.abs(Number(obj.style.top.replace('vh', '')) - PXtoVH(Number(persoCSS['top'].replace('px', '')))) < 2 &&
+                    Math.abs(Number(obj.style.left.replace('vh', '')) - PXtoVH(Number(persoCSS['left'].replace('px', '')))) < 2) {
+                    persoHIT()
+                    obj.remove()
+                }
+
+                if (Number(obj.style.top.replace('vh', '')) < 5 || Number(obj.style.top.replace('vh', '')) > 95 ||
+                    Number(obj.style.left.replace('vh', '')) < 5 || Number(obj.style.left.replace('vh', '')) > 95) {
+                    obj.remove()
+                } else { this.bulletMouvment(obj, dirY, dirX) }
+
+            }, 12)
+        }
+
+
         create() {
             this.elem = document.createElement('div')
             enemyDIV.appendChild(this.elem)
@@ -117,23 +187,27 @@ document.addEventListener('DOMContentLoaded', () => {
             img.setAttribute('alt', this.constructor.name)
             img.style.height = '6vh'
             img.classList.add(this.constructor.name)
+            img.style.position = 'relative'
+            img.style.marginTop = '-50%'
+            img.style.left = '-50%'
             this.elem.appendChild(img)
             this.elem.style.overflow = 'visible'
 
             this.spawn()
         }
         spawn() {
-            let x = Math.floor(Math.random() * (96 - 7 + 1) + 7)
-            let y = Math.floor(Math.random() * (94 - 5 + 1) + 5)
-            if (Math.abs(PXtoVH(Number(persoCSS['top'].replace('px', ''))) - y) > 40 || Math.abs(PXtoVH(Number(persoCSS['left'].replace('px', ''))) - x) > 40) {
-                this.elem.style.top = y + 'vh'
-                this.elem.style.left = x + 'vh'
+            this.posX = Math.floor(Math.random() * (90 - 10 + 1) + 10)
+            this.posY = Math.floor(Math.random() * (90 - 10 + 1) + 10)
+            if (Math.abs(PXtoVH(Number(persoCSS['top'].replace('px', ''))) - this.posY) > 40 || Math.abs(PXtoVH(Number(persoCSS['left'].replace('px', ''))) - this.posX) > 40) {
+                this.elem.style.top = this.posY + 'vh'
+                this.elem.style.left = this.posX + 'vh'
             } else {
                 this.spawn()
             }
         }
         destroy() {
             if (this.life <= damageDEAL) {
+                this.bulletsConstant = false
                 xp.add()
                 roomMECHANTS.splice(roomMECHANTS.indexOf(this), 1)
                 Object.getOwnPropertyNames(this).forEach(pName => {
@@ -142,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.elem.remove()
             } else {
                 this.elem.classList.add('hit')
-                setTimeout(()=>{
+                setTimeout(() => {
                     this.elem.classList.remove('hit')
                 }, 250)
                 this.life -= damageDEAL
@@ -152,15 +226,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    class biggerTurret extends turret{
+        constructor() {
+            super(3, 3, "../img/biggerTurret.png")
+        }
+    }
 
 
 
 
-
-
+    window.biggerTurret = biggerTurret
+    window.turret = turret
     window.gnome = gnome
     window.goblin = goblin
-    window.mechantCLASSlistes = [window.gnome, window.goblin]
     window.roomMECHANTS = []
     invulnerabilityPeriod = false
 

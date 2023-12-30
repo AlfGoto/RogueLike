@@ -33,6 +33,7 @@
         <div id='TIR'></div>
         <div id='DIVremnant'></div>
         <div id='DIVenemy'></div>
+        <div id='enemytirDIV'></div>
 
         <div id='xpDIV'>
             <div id='xpBAR'>

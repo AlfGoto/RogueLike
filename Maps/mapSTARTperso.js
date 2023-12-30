@@ -117,10 +117,12 @@ document.addEventListener('DOMContentLoaded', () => {
         let nbMECHANTS = Math.floor(Math.random() * (6 - 3 + 1) + 3)
         // console.log(nbMECHANTS)
         for (let i = 0; i < nbMECHANTS; i++) {
-            let rand = Math.floor(Math.random() * 2);
+            let rand = Math.floor(Math.random() * 4);
             // console.log('rand = ' + rand)
             if (rand == 0) { roomMECHANTS.push(new gnome); }
             if (rand == 1) { roomMECHANTS.push(new goblin); }
+            if (rand == 2) { roomMECHANTS.push(new turret); }
+            if (rand == 3) { roomMECHANTS.push(new biggerTurret); }
         }
     }
 
@@ -196,9 +198,11 @@ document.addEventListener('DOMContentLoaded', () => {
             this.elem.classList.add('powerupDIVS')
 
             this.nameP = document.createElement('h3')
+            this.nameP.style.fontSize = '4vh'
             this.elem.appendChild(this.nameP)
             this.nameP.innerHTML = n
             this.descriptionP = document.createElement('p')
+            this.descriptionP.style.fontSize = '3vh'
             this.elem.appendChild(this.descriptionP)
             this.descriptionP.innerHTML = d
 
