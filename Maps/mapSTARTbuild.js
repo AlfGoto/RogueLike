@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
 
-    console.log(roomsinfo)
+    // console.log(roomsinfo)
 
 
 

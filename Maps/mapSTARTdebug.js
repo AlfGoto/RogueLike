@@ -9,10 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     //     console.log((e.pageY / innerHeight) * 100)
     // })
 
-    document.addEventListener('contextmenu', event => {
-        event.preventDefault();
-    });
-
+    
     document.addEventListener('click', (e)=>{
         // console.log(' ')
         // console.log('x = ' + PXtoVH(e.pageX))

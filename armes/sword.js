@@ -11,7 +11,7 @@ window.onload = () => {
     window.cooldownTime = 650
     window.radius = 20
     window.taille = 1
-    window.damageDEAL = 5
+    window.damageDEAL = 1
     window.tirITERATION = 1
     let tirIterationCount = []
     let autoclickON = false;

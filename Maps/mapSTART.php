@@ -8,6 +8,8 @@
 <hmtl>
 
     <head>
+        <title>Paragraph/</title>
+
         <link rel='stylesheet' href='mapSTART.css'>
         <link rel='stylesheet' href='mapSTARTperso.css'>
         <link rel='stylesheet' href='../armes.css'>

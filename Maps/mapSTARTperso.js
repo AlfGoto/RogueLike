@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    let roomArea = document.getElementById('roomArea')
 
     let innerHeight = Number(window.getComputedStyle(mapAREA)['height'].replace('px', ''))
     window.innerHeight = innerHeight
@@ -42,12 +43,19 @@ document.addEventListener('DOMContentLoaded', () => {
     window.lvlP = document.getElementById('lvl')
     window.xpCount = 0
     window.lvl = 1
-    window.xpNeeded = 5
+    window.xpNeeded = 10
     window.xpPROGRESS = document.getElementById('xpPROGRESS')
 
     //Pause
     let pauseDIV = document.getElementById('pauseDIV')
     let pauseStatsDIV = document.getElementById('pauseStatsDIV')
+
+    //treasure ROOM
+    let TreasureTaken = false
+    let didtreasuremm = false
+
+    //boss ROOM
+    let didbossmm = false
 
 
 
@@ -67,9 +75,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         //faire spawn les mobs
         roomMECHANTS = []
-        if (!roomsinfo[room]['found'] && !roomsinfo[room]['treasure']&& !roomsinfo[room]['boss']) {
+        if (!roomsinfo[room]['found'] && !roomsinfo[room]['treasure'] && !roomsinfo[room]['boss']) {
             roomsinfo[room]['found'] = true
             spawnMECHANTSlvl1()
+        }
+        if (roomsinfo[room]['treasure']) {
+            roomArea.innerHTML += "<div id='treasureDIV'><div class='externSquare'></div><div class='middleSquare'></div><div class='internSquare'></div><div class='externSquare duplicate'></div><div class='middleSquare duplicate'></div><div class='internSquare duplicate'></div><div class='autel'></div><img src='../img/runic text3.png' id='externText' alt='some strange rune text'><img src='../img/runic text2.png' id='middleText' alt='some strange rune text'><img src='../img/runic text1.png' id='internText' alt='some strange rune text'></div>"
+            if (!TreasureTaken) { treasureCheck() }
         }
 
 
@@ -114,7 +126,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+    function treasureCheck() {
+        setTimeout(() => {
+            if (Math.abs(PXtoVH(Number(persoCSS['top'].replace('px', ''))) - 50) < 2 && Math.abs(PXtoVH(Number(persoCSS['left'].replace('px', ''))) - 50) < 2) {
+                console.log('TREASURE')
+                TreasureTaken = true
+                powerupMenu()
+            } else { treasureCheck() }
+        }, 10)
+    }
     function chestOnMinimap() {
+        if (didtreasuremm) { return }
+        didtreasuremm = true
         let chestroom = grid.querySelector(".treasureNOTFOUND")
         let img = document.createElement('img')
         img.setAttribute('src', '../img/chest.png')
@@ -122,6 +145,8 @@ document.addEventListener('DOMContentLoaded', () => {
         chestroom.appendChild(img)
     }
     function bossOnMinimap() {
+        if (didbossmm) { return }
+        didbossmm = true
         let bossroom = grid.querySelector(".bossNOTFOUND")
         let img = document.createElement('img')
         img.setAttribute('src', '../img/boss.png')
@@ -365,9 +390,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return
         }
         if (gamePAUSE) { return }
-        // if (gameON == false) {
-        //     gameON = true
-        // }
         // console.log(`DOWN ${e.key}`)
         if (e.key == 'z') {
             if (zBOOL == false) {
@@ -524,4 +546,8 @@ document.addEventListener('DOMContentLoaded', () => {
         mouseY = e.pageY
         // console.log(mouseX + " / " + mouseY)
     }
+    document.addEventListener('contextmenu', event => {
+        event.preventDefault();
+    });
+
 })

@@ -1,74 +1,70 @@
-*{
-    user-select: none;
-    overflow: hidden;
-    font-family: Arial, sans-serif;
+* {
+  user-select: none;
+  overflow: hidden;
+  font-family: Arial, sans-serif;
 }
-:root{
-    --explode-radius1 : 100%;
-    --explode-radius2 : 125%;
-    --explode-radius3 : 156%;
-    --explode-radius4 : 196%;
-    --explode-radius5 : 243%;
-}
-
-p{
-    margin: 0px;
-}
-.tir{
-    position: absolute;
-    font-size: 2vh;
-    z-index: 30;
-    overflow: visible;
+:root {
+  --explode-radius1: 100%;
+  --explode-radius2: 125%;
+  --explode-radius3: 156%;
+  --explode-radius4: 196%;
+  --explode-radius5: 243%;
 }
 
-@keyframes explode{
-    0%{
-        font-size: var(--explode-radius1);
-        filter: blur(0);
-        opacity: 100%;
-    }
-    25%{
-        font-size: var(--explode-radius2);
-        filter: blur(2px);
-        opacity: 75%;
-    }
-    50%{
-        font-size: var(--explode-radius3);
-        filter: blur(4px);
-        opacity: 50%;
-    }
-    75%{
-        font-size: var(--explode-radius4);
-        filter: blur(10px);
-        opacity: 25%;
-    }
-    100%{
-        font-size: var(--explode-radius5);
-        filter: blur(20px);
-        opacity: 0%;
-    }
+p {
+  margin: 0px;
+}
+.tir {
+  position: absolute;
+  font-size: 2vh;
+  z-index: 30;
+  overflow: visible;
 }
 
-.remnant{
-    position: absolute;
-    color: rgba(0, 0, 0, 0.08);
-    z-index: 1;
-    filter: blur(1px);
+@keyframes explode {
+  0% {
+    font-size: var(--explode-radius1);
+    filter: blur(0);
+    opacity: 100%;
+  }
+  25% {
+    font-size: var(--explode-radius2);
+    filter: blur(2px);
+    opacity: 75%;
+  }
+  50% {
+    font-size: var(--explode-radius3);
+    filter: blur(4px);
+    opacity: 50%;
+  }
+  75% {
+    font-size: var(--explode-radius4);
+    filter: blur(10px);
+    opacity: 25%;
+  }
+  100% {
+    font-size: var(--explode-radius5);
+    filter: blur(20px);
+    opacity: 0%;
+  }
 }
 
-.tir img{
-    position: relative;
-    margin-top: -50%;
-    left: -50%;
+.remnant {
+  position: absolute;
+  color: rgba(0, 0, 0, 0.08);
+  z-index: 1;
+  filter: blur(1px);
 }
 
-.boomerang{
-    animation: 0.1s linear rotate infinite;
+.tir img {
+  position: relative;
+  margin-top: -50%;
+  left: -50%;
 }
-@keyframes rotate{
-    0%{transform: rotate(0deg);}
-    25%{transform: rotate(90deg);}
-    50%{transform: rotate(180deg);}
-    75%{transform: rotate(270deg);}
-    100%{transform: rotate(0deg);}
+
+.boomerang {
+  animation: 0.1s linear rotate infinite;
+}
+@keyframes rotate {
+ 100% {transform: rotate(360deg);}
 }
