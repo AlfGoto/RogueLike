@@ -114,7 +114,7 @@ document.addEventListener('DOMContentLoaded', () => {
         square.classList.add('ROOMin')
     }
     function spawnMECHANTSlvl1() {
-        let nbMECHANTS = Math.floor(Math.random() * (6 - 1 + 1) + 1)
+        let nbMECHANTS = Math.floor(Math.random() * (6 - 3 + 1) + 3)
         // console.log(nbMECHANTS)
         for (let i = 0; i < nbMECHANTS; i++) {
             let rand = Math.floor(Math.random() * 2);
@@ -208,6 +208,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function powerupMenu() {
+        gamePAUSE = true
         // console.log('Pupmenu Oppening...')
         powerupTitle.classList.remove('hidden')
         let tempARR = [...powerupArray]
@@ -243,6 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function closepowerupMenu() {
+        gamePAUSE = false
         // console.log('menu closed')
         powerupTitle.classList.add('hidden')
         tempARR = document.querySelectorAll('.powerupDIVS')
@@ -449,7 +451,10 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
             left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
-            top -= mooveSpeed
+            if (qBOOL || dBOOL) { top -= mooveSpeed * 0.7 } else { top -= mooveSpeed }
+
+
+            //room change
             if (top < ptopPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['top']) {
@@ -470,7 +475,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
             left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
-            top += mooveSpeed
+            if (qBOOL || dBOOL) { top += mooveSpeed * 0.7 } else { top += mooveSpeed }
+
+            //room change
             if (top > pbotPOSY) {
                 if (left > pPOSmaxX || left < pPOSminX || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['bot']) {
@@ -491,7 +498,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
-            left += mooveSpeed
+            if (zBOOL || sBOOL) { left += mooveSpeed * 0.7 } else { left += mooveSpeed }
+
+            //room change
             if (left > prightPOSX) {
                 if (top < pxPOSminY || top > pxPOSmaxY || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['right']) {
@@ -512,7 +521,9 @@ document.addEventListener('DOMContentLoaded', () => {
         setTimeout(() => {
             let left = PXtoVH(Number(persoCSS['left'].replace('px', '')))
             let top = PXtoVH(Number(persoCSS['top'].replace('px', '')))
-            left -= mooveSpeed
+            if (zBOOL || sBOOL) { left -= mooveSpeed * 0.7 } else { left -= mooveSpeed }
+
+            //room change
             if (left < pleftPOSX) {
                 if (top < pxPOSminY || top > pxPOSmaxY || roomMECHANTS.length != 0) { return }
                 if (roomsinfo[persoROOM]['left']) {
