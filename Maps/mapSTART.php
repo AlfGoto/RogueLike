@@ -28,6 +28,7 @@
             <p>TOI</p>
         </div>
 
+        <div id="backgroundDIV"><img id="backgroundIMG" src="../img/background/eau2.png"></img></div>
         <div id='mapAREA'></div>
         <div id='grid'></div>
         <div id='TIR'></div>

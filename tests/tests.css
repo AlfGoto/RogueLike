@@ -1,3 +1,7 @@
+*{
+    overflow: hidden;
+}
+
 #mapAREA {
     /* background-color: blue; */
     height: 100vh;
@@ -15,4 +19,21 @@
     position: absolute;
     top: 5vh;
     left: 5vh;
+    border-radius: 5vh;
+}
+#backgroundDIV{
+    position: absolute;
+    top: -5vh;
+    left: -5vh;
+    height: 110vh;
+    width: 110vh;
+    overflow: hidden;
+}
+#backgroundIMG{
+    animation: defile 10s linear infinite;
+}
+
+@keyframes defile{
+    from{transform: translateX(0vh)}
+    to{transform: translateX(-400vh)}
 }

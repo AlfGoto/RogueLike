@@ -6,7 +6,22 @@
     -o-user-select: none;
     user-select: none;
 }
+#backgroundDIV{
+    position: absolute;
+    top: -5vh;
+    left: -5vh;
+    height: 110vh;
+    width: 110vh;
+    overflow: hidden;
+}
+#backgroundIMG{
+    animation: defile 70s linear infinite;
+}
 
+@keyframes defile{
+    from{transform: translateX(0vh)}
+    to{transform: translateX(-400vh)}
+}
 .hidden {
     visibility: hidden;
 }
@@ -43,6 +58,7 @@
     top: 0vh;
     z-index: 10;
     overflow: hidden;
+    overflow: visible;
 }
 
 #roomArea {
@@ -52,46 +68,58 @@
     position: absolute;
     top: 5vh;
     left: 5vh;
+    border-radius: 4vh;
+    overflow: visible;
 }
 
 
 .ptop {
-    background-color: black;
+    background: url('../img/background/pont.png');
+    background-size: 14vh 14vh;
+    overflow: visible;
     position: absolute;
-    top: -1vh;
+    transform: rotate(270deg);
+    top: -10vh;
     left: 38vh;
-    height: 2vh;
-    width: 15vh;
+    height: 14vh;
+    width: 14vh;
     z-index: 20;
 }
 
 .pbot {
-    background-color: black;
+    background: url('../img/background/pont.png');
+    background-size: 14vh 14vh;
+    overflow: visible;
     position: absolute;
-    bottom: -1vh;
+    transform: rotate(90deg);
+    bottom: -10vh;
     left: 38vh;
-    height: 2vh;
-    width: 15vh;
+    height: 14vh;
+    width: 14vh;
     z-index: 20;
 }
 
 .pleft {
-    background-color: black;
+    background: url('../img/background/pont.png');
+    background-size: 14vh 14vh;
+    overflow: visible;
     position: absolute;
-    left: -1vh;
+    left: -10vh;
     top: 38vh;
-    height: 15vh;
-    width: 2vh;
+    height: 14vh;
+    width: 14vh;
     z-index: 20;
 }
 
 .pright {
-    background-color: black;
+    background: url('../img/background/pont.png');
+    background-size: 14vh 14vh;
+    overflow: visible;
     position: absolute;
-    right: -1vh;
+    right: -10vh;
     top: 38vh;
-    height: 15vh;
-    width: 2vh;
+    height: 14vh;
+    width: 14vh;
     z-index: 20;
 }
 
@@ -179,8 +207,8 @@
     justify-content: center;
     bottom: 2.7vh;
     font-size: 2vh;
+    z-index: 25;
 }
-
 
 
 .powerupDIVS {
